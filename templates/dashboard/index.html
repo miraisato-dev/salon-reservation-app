@@ -1,0 +1,13 @@
+<!-- templates/dashboard/index.html ダッシュボード(トップページ) -->
+
+{% extends "layout/app_shell.html" %}
+
+{% block title %}ダッシュボード{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+<!-- テーブルの行どこ押しても飛べるJS static/js/reservation.js -->
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/reservations.js') }}"></script>
+{% endblock %}

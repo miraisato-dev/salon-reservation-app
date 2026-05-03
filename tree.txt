@@ -1,0 +1,66 @@
+4/25(Fri) treeコマンド：
+
+tree -L 3 -I "__pycache__|migrations|venv">tree.txt
+.
+├── app.py
+├── data.sqlite
+├── db.py
+├── 画面遷移図flare_salon.png
+├── flask_env
+├── forms.py
+├── models.py
+├── requirements.txt
+├── services
+│   └── reservation_service.py
+├── static
+│   ├── base
+│   │   ├── layout.css
+│   │   ├── reset.css
+│   │   ├── style.css
+│   │   └── variables.css
+│   ├── components
+│   │   ├── badge.css
+│   │   ├── button.css
+│   │   ├── card.css
+│   │   ├── input.css
+│   │   ├── sidebar.css
+│   │   └── table.css
+│   ├── main.css
+│   └── pages
+│       ├── customers.css
+│       ├── menus.css
+│       ├── reservations.css
+│       └── stylists.css
+├── templates
+│   ├── components
+│   │   ├── header.html
+│   │   └── sidebar.html
+│   ├── customers
+│   │   ├── _form.html
+│   │   ├── detail.html
+│   │   ├── edit.html
+│   │   ├── index.html
+│   │   └── new.html
+│   ├── dashboard
+│   │   └── index.html
+│   ├── layout
+│   │   ├── app_shell.html
+│   │   └── base.html
+│   ├── menus
+│   │   ├── detail.html
+│   │   ├── form.html
+│   │   └── index.html
+│   ├── ranks
+│   │   ├── detail.html
+│   │   ├── form.html
+│   │   └── index.html
+│   ├── reservations
+│   │   ├── create.html
+│   │   ├── detail.html
+│   │   ├── edit.html
+│   │   └── index.html
+│   └── stylists
+│       ├── detail.html
+│       ├── form.html
+│       └── index.html
+└── tree.txt

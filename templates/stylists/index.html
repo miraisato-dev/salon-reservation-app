@@ -1,0 +1,87 @@
+<!-- templates/stylists/index.html スタイリスト一覧 -->
+{% extends "layout/app_shell.html" %}
+
+{% block title %}スタイリスト一覧{% endblock %}
+
+{% block content %}
+<!-- 会員一覧 Table Card　今後余裕があればカード化 -->
+<div class="bg-white border border-[#E8E6E1] rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-[#F9F8F6] border-b border-[#E8E6E1]">
+                    <th class="px-6 py-4 font-button text-button text-stone-600">スタイリストID</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">スタイリスト名</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">肩書</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">ランク</th>
+                    <!-- ３点リーダー用 -->
+                    <th class="px-6 py-4 font-button text-button text-stone-600"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-[#E8E6E1]">
+                {% for stylist in stylists %}
+                <tr class="cursor-pointer hover:bg-[#F9F8F6]"
+                    data-href="{{ url_for('stylists_detail', stylist_id=stylist.stylist_id) }}">
+                    <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
+                    <!-- Column 1 スタイリストID -->
+                    <td class=" px-6 py-5">
+                        <span class="text-stone-800 font-bold">
+                            {{ stylist.stylist_id }}
+                        </span>
+                    </td>
+                    <!-- Column 2 スタイリスト名 -->
+                    <td class="px-6 py-5">
+                        <div class="flex items-center gap-3">
+                            <img alt="Stylist" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="Portrait of a fashionable young Japanese woman with stylish hair, neutral background, elegant lighting, soft focus"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLNOiRskLYs3HxELOB0zghAc6xJQqdcEVAtVvEGC-ByHfy2y4qXNeWN96h1djzVxe0t20wWYNkbQhfRDf6r3OZ3dedO83mXBq-AxoEosZlfxifiSser4NoKMoz0m8z2HUOyyWadwJGem1nl0NBLzvjCunEnQdvDcaQL_YnebaavR3w3o_uWEs2u-cavyRy5b9s0s4k_mWACyKpwX7VrNJX95rDWoz14Nq4DBzy1YE35yefNZa7VVR-WkOM1Nm-SJ79bUAaTNr0ef4" />
+                            <div>
+                                <p class="text-stone-900 font-semibold">{{ stylist.stylist_name }}</p>
+                                <p class="text-[10px] text-stone-400">
+                                    {{ stylist.rank.title if stylist.rank else "ランクなし" }}
+                                </p>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Column 3 肩書 or ステータス(在籍/卒業/休みなど) -->
+                    <td class="px-6 py-5 text-stone-600">
+                        <p>
+                            {{ stylist.rank.title if stylist.rank else "アシスタント" }}
+                        </p>
+                    </td>
+                    <!-- Column 4 ランク -->
+                    <td class="px-6 py-5">
+                        <span class="bg-[#F9F8F6] text-stone-600 px-3 py-1 rounded-md text-xs border border-[#E8E6E1]">
+                            {{ stylist.rank_id if stylist.rank_id else "ランクなし" }}
+                    </td>
+                    <!-- Column 5 ３点リーダー -->
+                    <td class="px-6 py-5 text-right align-middle">
+                        <button class="text-stone-400 hover:text-stone-800 transition-colors">
+                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination / Table Footer -->
+    <div class="px-6 py-4 bg-[#F9F8F6] border-t border-[#E8E6E1] flex items-center justify-between">
+        <p class="text-xs text-stone-500">全 24 件中 1-4 件を表示</p>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-400 cursor-not-allowed">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_before">navigate_before</span>
+            </button>
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-600 hover:bg-stone-50">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_next">navigate_next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- テーブルの行どこ押しても飛べるJS static/js/reservation.js -->
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/reservations.js') }}"></script>
+{% endblock %}

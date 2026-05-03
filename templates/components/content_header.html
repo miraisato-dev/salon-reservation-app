@@ -1,0 +1,50 @@
+<!-- <body class="bg-background text-on-background font-body-md">
+</body> -->
+<!-- templates/components/content_header.html -->
+{% from "components/breadcrumb.html" import render as breadcrumb %}
+
+<div class="mb-6">
+    <!-- これでもいいのかもしれない<div class="pt-0 pb-6 px-10"> -->
+</div>
+<!-- パンくず（任意） -->
+
+</header>
+<!-- Content Canvas -->
+<div class="pt-0 pb-0 px-0">
+    <!-- 横の余白はこれで管理するのではなく、メインのコンテンツと一緒に入ってる箱で管理 app_shell.htmlにある -->
+    <!-- Header Section -->
+    <div class="flex justify-between items-end mb-0">
+        <!-- ここで左側と右側を横並びに w-fullで横幅目一杯とる -->
+        <div class="flex justify-between items-end mb-8 w-full">
+            <!-- 左側(パンくず＋タイトル) -->
+            <div>
+                {% if breadcrumb %}
+                {{ breadcrumb(breadcrumb_items) }}
+                {% endif %}
+
+                <h2 class="font-headline-lg text-primary">
+                    {{ page_title }}
+                </h2>
+                {% if sub_title %}
+                <p class="text-xs text-stone-500">
+                    {{ sub_title }}
+                </p>
+                {% endif %}
+            </div>
+
+            <!-- 右側(ボタン) -->
+            <div class="flex gap-3">
+                <button
+                    class="px-6 py-2 border border-[#E8E6E1] rounded-lg bg-white text-slate-600 font-button hover:bg-slate-50 transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">print</span>
+                    印刷
+                </button>
+                <button
+                    class="px-6 py-2 bg-[#7A8E7C] text-white rounded-lg font-button hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                    編集
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

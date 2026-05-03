@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Noto+Sans+JP:wght@400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e1",
+                        "surface-variant": "#e4e2e1",
+                        "on-secondary-container": "#626361",
+                        "on-primary-fixed-variant": "#394b3c",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary": "#ffffff",
+                        "background": "#fbf9f8",
+                        "secondary-fixed": "#e3e2e0",
+                        "surface-bright": "#fbf9f8",
+                        "on-secondary-fixed": "#1a1c1b",
+                        "inverse-on-surface": "#f3f0f0",
+                        "on-surface-variant": "#434843",
+                        "inverse-surface": "#303030",
+                        "on-tertiary-fixed-variant": "#474743",
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-container": "#fffcf7",
+                        "primary-fixed-dim": "#b7ccb8",
+                        "primary-container": "#667968",
+                        "inverse-primary": "#b7ccb8",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6c5",
+                        "surface-container-low": "#f6f3f2",
+                        "tertiary": "#5c5c58",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#eae8e7",
+                        "outline": "#737872",
+                        "primary-fixed": "#d3e8d3",
+                        "on-background": "#1b1c1c",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#757571",
+                        "on-primary-fixed": "#0e1f12",
+                        "surface-container": "#f0eded",
+                        "secondary": "#5e5e5d",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#e0dfde",
+                        "tertiary-fixed-dim": "#c8c6c2",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#f6fff4",
+                        "tertiary-fixed": "#e4e2dd",
+                        "surface-tint": "#506353",
+                        "outline-variant": "#c3c8c1",
+                        "on-secondary-fixed-variant": "#464746",
+                        "surface": "#fbf9f8",
+                        "primary": "#4e6150",
+                        "on-tertiary-fixed": "#1b1c19"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter-md": "1.5rem",
+                        "section-margin": "2rem",
+                        "container-padding": "2rem",
+                        "stack-gap": "1rem",
+                        "sidebar-width": "240px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Noto Serif"],
+                        "display-logo": ["Noto Serif"],
+                        "headline-lg": ["Noto Serif"],
+                        "body-lg": ["Noto Sans JP"],
+                        "body-md": ["Noto Sans JP"],
+                        "button": ["Noto Sans JP"],
+                        "label-sm": ["Noto Sans JP"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "display-logo": ["24px", { "lineHeight": "32px", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg": ["22px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+                        "button": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(3, 1fr);
+        }
+
+        .time-slot {
+            height: 120px;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md">
+    <!-- SideNavBar -->
+    <aside
+        class="fixed left-0 top-0 h-screen w-64 border-r border-[#E8E6E1] bg-[#FDFDFD] shadow-[6px_0_24px_rgba(0,0,0,0.02)] flex flex-col h-full pt-8 pb-4 z-50">
+        <div class="px-8 mb-10">
+            <h1 class="text-2xl font-bold text-[#7A8E7C] tracking-tight font-display-logo">Flare</h1>
+            <p class="text-[10px] tracking-[0.2em] text-stone-400 font-sans uppercase mt-1">Hair salon</p>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a class="flex items-center px-8 py-3 text-stone-500 hover:text-[#7A8E7C] hover:bg-[#F9F8F6] transition-all translate-x-0 hover:translate-x-1 duration-300 font-serif"
+                href="#">
+                <span class="material-symbols-outlined mr-4" data-icon="dashboard">dashboard</span>
+                <span>Dashboard</span>
+            </a>
+            <a class="flex items-center px-8 py-3 border-l-4 border-[#7A8E7C] bg-[#F9F8F6] text-stone-900 font-bold font-serif"
+                href="#">
+                <span class="material-symbols-outlined mr-4 text-[#7A8E7C]"
+                    data-icon="calendar_month">calendar_month</span>
+                <span>Calendar</span>
+            </a>
+            <a class="flex items-center px-8 py-3 text-stone-500 hover:text-[#7A8E7C] hover:bg-[#F9F8F6] transition-all translate-x-0 hover:translate-x-1 duration-300 font-serif"
+                href="#">
+                <span class="material-symbols-outlined mr-4" data-icon="group">group</span>
+                <span>Clients</span>
+            </a>
+            <a class="flex items-center px-8 py-3 text-stone-500 hover:text-[#7A8E7C] hover:bg-[#F9F8F6] transition-all translate-x-0 hover:translate-x-1 duration-300 font-serif"
+                href="#">
+                <span class="material-symbols-outlined mr-4" data-icon="content_cut">content_cut</span>
+                <span>Services</span>
+            </a>
+            <a class="flex items-center px-8 py-3 text-stone-500 hover:text-[#7A8E7C] hover:bg-[#F9F8F6] transition-all translate-x-0 hover:translate-x-1 duration-300 font-serif"
+                href="#">
+                <span class="material-symbols-outlined mr-4" data-icon="badge">badge</span>
+                <span>Staff</span>
+            </a>
+        </nav>
+        <div class="px-8 mt-auto border-t border-[#E8E6E1] pt-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+                    <img class="w-full h-full object-cover"
+                        data-alt="Professional headshot of a female salon manager with a friendly expression in a bright studio environment"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuALysjoLpEL5s86I-zgpH_TpKVMfQ9ff6g-aAeKVZErXiBEFcYaEpaMw3PzgpM7W4rrlvxteZEf1ER8xa8LzN0od7UqVZvguscRaROIoCGPUbzt6NkbhsNcZJUbZ9k0kvLSPlro0Wt3flmvEFLJdteGDPSO-8DY1mw_rZFJowE9HW6KZysDpUue24syNAc3Fe66Od-48XwsE5KJuOxOaeTOCjzhRl7H3hLKzdroHNCeOkkzUCQZM58OtOi_nVGwoEHWLEfwGlzVsiM" />
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-stone-800">Elena Rossi</p>
+                    <p class="text-xs text-stone-500">Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="ml-64 min-h-screen">
+        <!-- TopAppBar -->
+        <header
+            class="sticky top-0 z-40 h-16 flex justify-between items-center px-8 bg-white/90 border-b border-stone-200">
+            <div class="flex items-center gap-6">
+                <div class="relative w-64">
+                    <span
+                        class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-lg"
+                        data-icon="search">search</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-2 bg-stone-50 border-none rounded-lg text-sm focus:ring-1 focus:ring-[#7A8E7C]"
+                        placeholder="Search appointments..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors relative">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-[#7A8E7C] rounded-full border border-white"></span>
+                </button>
+                <button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors">
+                    <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                </button>
+            </div>
+        </header>
+        <!-- Page Header & Navigation -->
+        <div class="px-8 py-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Calendar</h2>
+                    <p class="text-stone-500 font-body-md">October 24, 2023</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex bg-white border border-[#E8E6E1] rounded-lg p-1">
+                        <button class="p-1.5 hover:bg-stone-50 rounded text-stone-600 transition-colors">
+                            <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+                        </button>
+                        <button
+                            class="px-4 py-1.5 text-sm font-semibold text-stone-700 hover:bg-stone-50 rounded transition-colors">Today</button>
+                        <button class="p-1.5 hover:bg-stone-50 rounded text-stone-600 transition-colors">
+                            <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+                        </button>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-white border border-[#E8E6E1] rounded-lg text-sm font-semibold text-stone-700 hover:bg-stone-50 transition-colors">
+                        <span class="material-symbols-outlined text-lg" data-icon="event">event</span>
+                        DatePicker
+                    </button>
+                    <button
+                        class="flex items-center gap-2 px-6 py-2 bg-[#7A8E7C] text-white rounded-lg font-button text-button shadow-sm hover:brightness-105 transition-all">
+                        <span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                        New Appointment
+                    </button>
+                </div>
+            </div>
+            <!-- Calendar Container -->
+            <div
+                class="bg-white rounded-xl border border-[#E8E6E1] shadow-[6px_0_24px_rgba(0,0,0,0.02)] overflow-hidden">
+                <!-- Stylist Header -->
+                <div class="calendar-grid border-b border-[#E8E6E1] bg-stone-50/50 sticky top-0 z-10">
+                    <div class="p-4 border-r border-[#E8E6E1]"></div>
+                    <div class="p-6 border-r border-[#E8E6E1] flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full border-2 border-white shadow-sm mb-3 overflow-hidden">
+                            <img class="w-full h-full object-cover"
+                                data-alt="Portrait of Tanaka, a professional male hairstylist with stylish glasses in a minimalist salon background"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIXiDyq7cpLP596IFJJ4tOxl8I_EkMA8duRV9HOKQGHMULM6gPdqp4aJFNDU37PtQKzKHSkG2jlYxO5Lm0mijKZL87YoDIGb1SeFAFDqKDoiCfi-lsnJl3jWFoVlpxG6zxLBwz4dCVcFvCSprWodclnKQ5lHme8eO0ON-4xijvxIPbtiRVfY7Qocctge0853YWJB4RdOoCBv0ea4y6CQjlTWVlW7gcRwtcPIFMa_pQQnvBZj029Yd8JYi3Go5huF-mqeQulV-tfnA" />
+                        </div>
+                        <span class="font-headline-md text-headline-md text-stone-800">Tanaka</span>
+                        <span class="text-[10px] text-stone-400 tracking-widest font-sans">MASTER STYLIST</span>
+                    </div>
+                    <div class="p-6 border-r border-[#E8E6E1] flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full border-2 border-white shadow-sm mb-3 overflow-hidden">
+                            <img class="w-full h-full object-cover"
+                                data-alt="Portrait of Sato, a creative female stylist with soft natural lighting and a warm welcoming smile"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKVWHrWI5nTHEFQYGC-LOKcy9OxNLCOflPPsARn3KQYNbfOnnbGIqdlO2NgX_-JMNDgfZ0pGtjK5MHhRwuI2uSQdPkv8oTcKDryDRD6Rfc13oA7fz6TUOKR_u91GE84UmGHsMwa2TmzlRvrYbGmsWi00yu9VjmHe_RKMYAtseD0oQvAOS_VunA0TNM7QHf1APrTGe0ExgMng5H5b5sl2g71RMwKdN7M9l499CLFMEGhj4sGT9wk8q6hyzkuGigrlIxSuCT1e7kqig" />
+                        </div>
+                        <span class="font-headline-md text-headline-md text-stone-800">Sato</span>
+                        <span class="text-[10px] text-stone-400 tracking-widest font-sans">COLOR SPECIALIST</span>
+                    </div>
+                    <div class="p-6 flex flex-col items-center">
+                        <div class="w-12 h-12 rounded-full border-2 border-white shadow-sm mb-3 overflow-hidden">
+                            <img class="w-full h-full object-cover"
+                                data-alt="Portrait of Suzuki, a confident male stylist standing in a high-end salon with soft warm background lights"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_CZCAbYY9Y1d_CS3tTUMI_qrEhUIYkNfB8ZMEX5ZsnWvrOw7DtaxD2BGbdNi_5EVH2tU3keJp5KP4dd71DveNTyZGNxBlndB5AnGSmJkN3iyrOxsf8PWkzSUxXYISgmeI9wHUDPj6kZNVTmVSUEhZKiPwtCcS-XQmvXzl0dvX8kXDHVZB1e11GXt7c4xIQPNDJhwnnf3ehmSksfK27OYLuHBT2GxQ3wN2O9zxTgvYswqfRlDa5gQb8yD5HfRdEAf10ex9Gcor1pE" />
+                        </div>
+                        <span class="font-headline-md text-headline-md text-stone-800">Suzuki</span>
+                        <span class="text-[10px] text-stone-400 tracking-widest font-sans">JUNIOR STYLIST</span>
+                    </div>
+                </div>
+                <!-- Calendar Content Scroll Area -->
+                <div class="max-h-[700px] overflow-y-auto">
+                    <div class="calendar-grid relative">
+                        <!-- Time Column -->
+                        <div class="flex flex-col text-right pr-4 text-xs font-medium text-stone-400 bg-stone-50/30">
+                            <div class="time-slot pt-4">09:00</div>
+                            <div class="time-slot pt-4">10:00</div>
+                            <div class="time-slot pt-4">11:00</div>
+                            <div class="time-slot pt-4">12:00</div>
+                            <div class="time-slot pt-4">13:00</div>
+                            <div class="time-slot pt-4">14:00</div>
+                            <div class="time-slot pt-4">15:00</div>
+                            <div class="time-slot pt-4">16:00</div>
+                        </div>
+                        <!-- Stylist Columns Grid Lines -->
+                        <div class="border-r border-[#F0EDED] relative">
+                            <!-- Horizontal Lines -->
+                            <div class="absolute inset-0 grid grid-rows-8 pointer-events-none">
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                            </div>
+                            <!-- Appointments: Tanaka -->
+                            <div
+                                class="absolute left-3 right-3 top-[60px] h-[180px] bg-[#D4E2D5] border-l-4 border-[#7A8E7C] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-primary mb-1">09:30 - 11:00</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Yuki Mori</p>
+                                <p class="text-xs text-stone-600 mt-1">Full Balayage + Treatment</p>
+                            </div>
+                            <div
+                                class="absolute left-3 right-3 top-[380px] h-[100px] bg-[#F2E5D7] border-l-4 border-[#D9BBAE] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-[#A68A7C] mb-1">12:15 - 13:15</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Kenji Ito</p>
+                                <p class="text-xs text-stone-600 mt-1">Classic Cut</p>
+                            </div>
+                        </div>
+                        <div class="border-r border-[#F0EDED] relative">
+                            <div class="absolute inset-0 grid grid-rows-8 pointer-events-none">
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                            </div>
+                            <!-- Appointments: Sato -->
+                            <div
+                                class="absolute left-3 right-3 top-[20px] h-[140px] bg-[#E8E2F2] border-l-4 border-[#A394C2] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-[#7A6C9B] mb-1">09:10 - 10:20</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Mei Chen</p>
+                                <p class="text-xs text-stone-600 mt-1">Glossing + Blowdry</p>
+                            </div>
+                            <div
+                                class="absolute left-3 right-3 top-[240px] h-[220px] bg-[#D8E6F0] border-l-4 border-[#8CA9C0] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-[#56768F] mb-1">11:00 - 13:00</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Sarah Wilson</p>
+                                <p class="text-xs text-stone-600 mt-1">Scalp Treatment &amp; Styling</p>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-0 grid grid-rows-8 pointer-events-none">
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                                <div class="border-b border-[#F0EDED]"></div>
+                            </div>
+                            <!-- Appointments: Suzuki -->
+                            <div
+                                class="absolute left-3 right-3 top-[140px] h-[100px] bg-[#F2E5D7] border-l-4 border-[#D9BBAE] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-[#A68A7C] mb-1">10:15 - 11:15</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Haruto K.</p>
+                                <p class="text-xs text-stone-600 mt-1">Beard Trim &amp; Cut</p>
+                            </div>
+                            <div
+                                class="absolute left-3 right-3 top-[500px] h-[240px] bg-[#D4E2D5] border-l-4 border-[#7A8E7C] p-4 rounded-lg shadow-sm group hover:scale-[1.02] transition-transform cursor-pointer">
+                                <p class="text-xs font-bold text-primary mb-1">13:15 - 15:30</p>
+                                <p class="font-headline-md text-stone-800 leading-tight">Emma Stone</p>
+                                <p class="text-xs text-stone-600 mt-1">Highlights &amp; Color Correction</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar Footer Stats -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Total Slots</p>
+                    <p class="text-2xl font-headline-md text-stone-800">24 / 32</p>
+                    <div class="mt-4 w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-[#7A8E7C] h-full w-3/4 rounded-full"></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Cut &amp; Style</p>
+                    <p class="text-2xl font-headline-md text-stone-800">12 Appointments</p>
+                    <p class="text-xs text-green-600 mt-2 font-semibold">↑ 14% vs last week</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+                    <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Color Services</p>
+                    <p class="text-2xl font-headline-md text-stone-800">8 Appointments</p>
+                    <p class="text-xs text-stone-500 mt-2">Muted focus day</p>
+                </div>
+                <div
+                    class="bg-[#F9F8F6] p-6 rounded-xl border border-[#7A8E7C]/20 shadow-sm flex flex-col justify-center">
+                    <button
+                        class="w-full py-2 bg-transparent text-[#7A8E7C] border border-[#7A8E7C] rounded-lg font-button hover:bg-[#7A8E7C] hover:text-white transition-all">
+                        Generate Daily Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

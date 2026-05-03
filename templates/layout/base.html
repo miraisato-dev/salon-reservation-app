@@ -1,0 +1,63 @@
+<!-- templates/layout/base.html -->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        "display-logo": ["Noto Serif JP", "serif"],
+                        "headline-md": ["Noto Serif JP", "serif"],
+                        "headline-lg": ["Noto Sans JP", "serif"],
+                        "body-md": ["Noto Sans JP", "sans-serif"],
+                        "body-lg": ["Noto Sans JP", "sans-serif"],
+                        "button": ["Noto Sans JP", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .flatpickr-calendar {
+            border-radius: 12px;
+            border: 1px solid #E8E6E1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            font-family: "Noto Sans JP", sans-serif;
+        }
+
+        .flatpickr-day.selected {
+            background: #1c1c1c;
+            border-color: #1c1c1c;
+        }
+
+        .flatpickr-day:hover {
+            background: #F9F8F6;
+        }
+    </style>
+    <!-- Fonts Google Web Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons Google Material Symbol -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <title>{% block title %}Flare{% endblock %}</title>
+</head>
+
+<body class="font-body-md text-on-surface antialiased bg-[#F9F8F6]">
+    <!-- メイン -->
+    {% block body %}{% endblock %}
+</body>
+
+</html>

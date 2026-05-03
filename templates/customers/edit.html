@@ -1,0 +1,6 @@
+<!-- templates/customers/edit.html -->
+<h1>会員編集</h1>
+<form action="/customers/{{ customer.customer_id }}/update" method="POST">
+    {% include "customers/_form.html" %}
+    <button>更新</button>
+</form>

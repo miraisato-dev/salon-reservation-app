@@ -1,0 +1,29 @@
+@charset 'utf-8';
+
+:root {
+    /* Surface */
+    --surface: #fbf9f8;
+    --surface-container: #f0eded;
+
+    /* Text */
+    --text-main: #1b1c1c;
+    --text-sub: #434843;
+
+    /* Primary */
+    --primary: #4e6150;
+    --primary-container: #667968;
+
+    /* Border */
+    --outline: #737872;
+    --outline-variant: #c3c8c1;
+
+    /* Spacing */
+    --container-padding: 2rem;
+    --stack-gap: 1rem;
+
+    /* Radius */
+    --radius-sm: 4px;
+    --radius: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+}
