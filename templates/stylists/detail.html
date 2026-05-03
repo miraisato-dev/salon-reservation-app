@@ -12,9 +12,10 @@
         <div class="flex flex-col md:flex-row items-center md:items-start gap-12">
             <!-- Avatar Section -->
             <div class="relative shrink-0">
-                <div class="w-48 h-48 rounded-full bg-primary object-cover ring-8 ring-stone-50"></div>
-                <!-- <img alt="Elena Rodriguez" class="w-48 h-48 rounded-full object-cover ring-8 ring-stone-50"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmyVr04WSrND6BDjKScooA24jTOXc3wvvc5LGiBYWiEXT86H_MJkbkZgXQ7ES_LAMqSR5tWSl_U1xIFllzo994_3mOAzEAqO07Zzd2ehoXXGB77AZtwsXsCIYPirC_pSSMbkw_sEeioeGGslg-DSrU4hwY1sgJSJLgQPkXbnsyuLhubfYjJSZG7PFkXTV_bKAD5DrPuKGZj2IOra4aJE6yRozj22LT5ZgU-LHDBNbibNX5OhWpSz9vokFtRqLIZQAmoa48kFn4zDk" /> -->
+                <div class="w-48 h-48 rounded-full bg-primary object-cover ring-8 ring-stone-50">
+                    <img alt="Stylists" class="w-48 h-48 rounded-full object-cover ring-8 ring-stone-50"
+                        src="{{ stylist.image_path }}">
+                </div>
                 <div
                     class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#7A8E7C] text-white px-5 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase shadow-md">
                     {{ stylist.rank.rank_id if stylist.rank_id else "no rank" }}

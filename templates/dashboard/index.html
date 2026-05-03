@@ -5,6 +5,136 @@
 {% block title %}ダッシュボード{% endblock %}
 
 {% block content %}
+
+<!-- Calendar Container -->
+
+<div class="bg-white rounded-xl border border-[#E8E6E1] shadow-[6px_0_24px_rgba(0,0,0,0.02)] overflow-hidden">
+
+    <!-- Stylist Header -->
+    <div class="calendar-grid border-b border-[#E8E6E1] bg-stone-50/50 sticky top-0 z-10"
+        style="grid-template-columns: 80px repeat({{ stylists|length }}, 1fr);">
+
+        <div class="p-4 border-r border-[#E8E6E1]"></div>
+
+
+        <!-- 1行目START スタイリスト6人を横に並べる -->
+        {% for stylist in stylists %}
+        <div class="p-6 flex flex-col items-center border-r border-[#E8E6E1]">
+
+            <div class="w-12 h-12 rounded-full border-2 border-white shadow-sm mb-3 overflow-hidden">
+                <img class="w-full h-full object-cover" src="{{ stylist.image_path }}">
+            </div>
+
+            <span class="font-headline-md text-headline-md text-stone-800">
+                {{ stylist.stylist_name }}
+            </span>
+
+            <span class="text-[10px] text-stone-400 tracking-widest font-sans">
+                {{ stylist.rank.title if stylist.rank else "アシスタント" }}
+            </span>
+
+        </div>
+        {% endfor %}
+        <!-- 1行目END -->
+    </div>
+
+    <!-- Calendar Content Scroll Area -->
+    <div class="max-h-[700px] overflow-y-auto overflow-x-auto">
+        <div class="calendar-grid relative" style="grid-template-columns: 80px repeat({{ stylists|length }}, 1fr);">
+            <!-- Time Column -->
+
+            <!-- 左の時間START -->
+            <div
+                class="flex flex-col text-right pr-4 text-xs font-medium text-stone-400 bg-stone-50/30 border-r border-[#E8E6E1]">
+                {% for hour in range(9, 17) %}
+                <div class="time-slot h-[80px] flex items-start justify-end pr-2 pt-2">
+                    {{ "%02d:00"|format(hour) }}
+                </div>
+                {% endfor %}
+            </div>
+            <!-- 左の時間END -->
+
+
+
+            {% for stylist in stylists %}
+            <div class="border-r border-[#E8E6E1] relative">
+
+                <!-- 横線 -->
+                <div class="absolute inset-0 grid grid-rows-8 pointer-events-none">
+                    {% for i in range(8) %}
+                    <div class="border-b border-[#E8E6E1]"></div>
+                    {% endfor %}
+                </div>
+
+                <!-- 予約 -->
+                {% for r in stylist.daily_reservations %}
+                <div class="absolute left-3 right-3 p-3 rounded-lg shadow-sm cursor-pointer bg-[#D4E2D5] border-l-4 border-[#E8E6E1]"
+                    style="top: {{ r.top }}px; height: {{ r.height }}px;">
+                    <p class="text-xs font-bold mb-1">
+                        {{ r.start_time.strftime('%H:%M') }} - {{ r.end_time.strftime('%H:%M') }}
+                    </p>
+
+                    <p class="font-semibold">
+                        {{ r.customer.full_name }}
+                    </p>
+
+                    <p class="text-xs text-stone-600 mt-1">
+                        {% for m in r.menus %}
+                        {{ m.menu_name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+                {% endfor %}
+
+            </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Calendar Footer Stats -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+        <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Total Slots</p>
+        <p class="text-2xl font-headline-md text-stone-800">24 / 32</p>
+        <div class="mt-4 w-full bg-stone-100 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-[#7A8E7C] h-full w-3/4 rounded-full"></div>
+        </div>
+    </div>
+    <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+        <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Cut &amp; Style</p>
+        <p class="text-2xl font-headline-md text-stone-800">12 Appointments</p>
+        <p class="text-xs text-green-600 mt-2 font-semibold">↑ 14% vs last week</p>
+    </div>
+    <div class="bg-white p-6 rounded-xl border border-[#E8E6E1] shadow-sm">
+        <p class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-2">Color Services</p>
+        <p class="text-2xl font-headline-md text-stone-800">8 Appointments</p>
+        <p class="text-xs text-stone-500 mt-2">Muted focus day</p>
+    </div>
+    <div class="bg-[#F9F8F6] p-6 rounded-xl border border-[#E8E6E1]/20 shadow-sm flex flex-col justify-center">
+        <button
+            class="w-full py-2 bg-transparent text-[#7A8E7C] border border-[#E8E6E1] rounded-lg font-button hover:bg-[#7A8E7C] hover:text-white transition-all">
+            Generate Daily Report
+        </button>
+    </div>
+</div>
+</div>
+
 {% endblock %}
 
 <!-- テーブルの行どこ押しても飛べるJS static/js/reservation.js -->

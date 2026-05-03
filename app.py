@@ -141,7 +141,47 @@ def login():
 # ダッシュボード(トップページ)
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('dashboard/index.html', page_title='ダッシュボード')
+
+
+    # routeで1日分を取得
+    today = date.today()
+
+    stylists = Stylists.query.all()
+
+    for stylist in stylists:
+        stylist.daily_reservations = [
+            r for r in stylist.reservations
+            if r.reservation_date == today and not r.is_cancelled
+        ]
+
+    
+    # position計算
+    def calc_position(res):
+        base_hour = 9
+        px_per_hour = 80
+
+        start_min = (res.start_time.hour - base_hour) * 60 + res.start_time.minute
+        duration = (
+            (res.end_time.hour * 60 + res.end_time.minute) -
+            (res.start_time.hour * 60 + res.start_time.minute)
+        )
+
+        res.top = start_min / 60 * px_per_hour
+        res.height = duration / 60 * px_per_hour
+
+
+    # 全予約に適用
+    for stylist in stylists:
+        for r in stylist.daily_reservations:
+            calc_position(r)
+
+
+
+    return render_template(
+        'dashboard/index.html', 
+        page_title='ダッシュボード', 
+        stylists=stylists
+    )
 
 # =================
 #   CUSTOMER
@@ -297,20 +337,44 @@ def reservations_index():
 
     date_str = request.args.get("date")
 
+    # 基本のクエリ
+    query = Reservations.query
+
+    # 日付がある場合だけ絞る
     if date_str:
         current_date = datetime.strptime(date_str, "%Y-%m-%d")
+        target_date = current_date.date()
+
+        query = query.filter(
+            db.func.date(Reservations.start_time) == target_date
+        )
     else:
         current_date = now
 
+    # 並び替え（デフォルト昇順）
+    query = query.order_by(Reservations.start_time.asc())
+
+    # ここで一回だけ取得
+    reservations = query.all()
+
+    # UI用
     is_today = current_date.date() == now.date()
     today_str = now.strftime("%Y-%m-%d")
 
-    target_date = current_date.date()
+    stylist_id = request.args.get("stylist")
 
-    # ★日付で絞り込み
-    reservations = Reservations.query.filter(
-        func.date(Reservations.start_time) == target_date
-    ).all()
+    if stylist_id:
+        query = query.filter(Reservations.stylist_id == stylist_id)
+
+    sort = request.args.get("sort", "asc")
+
+    if sort == "desc":
+        query = query.order_by(Reservations.start_time.desc())
+    else:
+        query = query.order_by(Reservations.start_time.asc())
+
+
+        
     
     TAX_RATE = 0.10
 

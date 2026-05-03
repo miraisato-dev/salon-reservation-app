@@ -118,7 +118,6 @@ class Stylists(db.Model):
     __tablename__ = 'stylists'
     # スタイリストID
     stylist_id = db.Column(db.String(10), primary_key=True, nullable=False)
-    reservations = db.relationship('Reservations', back_populates='stylist')
     # スタイリスト氏名
     stylist_name = db.Column(db.String(30), nullable=False)
     # 入店日
@@ -129,7 +128,12 @@ class Stylists(db.Model):
         db.ForeignKey('ranks.rank_id'),
         nullable=True
     )
+    
     rank = db.relationship('Ranks', back_populates='stylists')
+    reservations = db.relationship('Reservations', back_populates='stylist')
+
+    # スタイリスト画像（S3 URL or static path）
+    image_path = db.Column(db.String(255), nullable=True)
 
 # 5. 予約メニューテーブル
 class ReservationMenus(db.Model):

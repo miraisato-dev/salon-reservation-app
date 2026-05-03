@@ -7,6 +7,7 @@
 
 <!-- 日付検索等ナビゲーションバー マクロ化するかも -->
 <div class="bg-white border border-[#E8E6E1] rounded-xl p-4 flex items-center justify-between mb-8 shadow-sm">
+
     <div class="flex items-center gap-4">
         <a href="?date={{ current_date | add_days(-1) | to_date_str }}"
             class="w-10 h-10 flex items-center justify-center border border-[#E8E6E1] rounded-lg hover:bg-[#F9F8F6] text-stone-600 transition-colors">
@@ -21,7 +22,22 @@
         </a>
     </div>
 
-    <div class="flex items-center gap-2">
+    <form method="get" class="flex items-center gap-2">
+        <!-- スタイリストフィルター -->
+        <select name="stylist" onchange="this.form.submit()"
+            class="h-10 border border-[#E8E6E1] rounded-lg px-2 text-sm text-stone-600">
+            <option value="">全スタイリスト</option>
+            {% for stylist in stylists %}
+            <option value="{{ stylist.id }}" {% if request.args.get('stylist')==stylist.id|string %}selected{% endif %}>
+                {{ stylist.stylist_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <a href="/reservations" class="px-4 py-2 text-sm rounded-lg bg-stone-100">
+            すべて
+        </a>
+
         {% if not is_today %}
         <a href="/reservations?date={{ today_str }}"
             class="px-4 py-2 text-sm font-medium rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 transition-colors">
@@ -38,8 +54,8 @@
                 <span class="material-symbols-outlined">calendar_today</span>
             </button>
         </div>
+    </form>
 
-    </div>
 </div>
 
 
@@ -77,9 +93,9 @@
                     <!-- Column 2 お客様名 -->
                     <td class="px-6 py-5">
                         <div class="flex items-center gap-3">
-                            <img alt="Customer" class="w-8 h-8 rounded-full object-cover"
+                            <!-- <img alt="Customer" class="w-8 h-8 rounded-full object-cover"
                                 data-alt="Portrait of a fashionable young Japanese woman with stylish hair, neutral background, elegant lighting, soft focus"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLNOiRskLYs3HxELOB0zghAc6xJQqdcEVAtVvEGC-ByHfy2y4qXNeWN96h1djzVxe0t20wWYNkbQhfRDf6r3OZ3dedO83mXBq-AxoEosZlfxifiSser4NoKMoz0m8z2HUOyyWadwJGem1nl0NBLzvjCunEnQdvDcaQL_YnebaavR3w3o_uWEs2u-cavyRy5b9s0s4k_mWACyKpwX7VrNJX95rDWoz14Nq4DBzy1YE35yefNZa7VVR-WkOM1Nm-SJ79bUAaTNr0ef4" />
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLNOiRskLYs3HxELOB0zghAc6xJQqdcEVAtVvEGC-ByHfy2y4qXNeWN96h1djzVxe0t20wWYNkbQhfRDf6r3OZ3dedO83mXBq-AxoEosZlfxifiSser4NoKMoz0m8z2HUOyyWadwJGem1nl0NBLzvjCunEnQdvDcaQL_YnebaavR3w3o_uWEs2u-cavyRy5b9s0s4k_mWACyKpwX7VrNJX95rDWoz14Nq4DBzy1YE35yefNZa7VVR-WkOM1Nm-SJ79bUAaTNr0ef4" /> -->
                             <div>
                                 <p class="text-stone-900 font-semibold">{{ reservation.customer.full_name }}</p>
                                 <p class="text-[10px] text-stone-400">{{ reservation.customer.customer_id }}</p>
@@ -87,7 +103,13 @@
                         </div>
                     </td>
                     <!-- Column 3 スタイリスト -->
-                    <td class="px-6 py-5 text-stone-600">{{reservation.stylist.stylist_name }}</td>
+                    <td class="px-6 py-5 text-stone-600">
+
+                        <img alt="Stylists" class="w-8 h-8 rounded-full object-cover"
+                            src="{{ reservation.stylist.image_path }}">
+                        {{reservation.stylist.stylist_name }}
+
+                    </td>
                     <!-- Column 4 メニュー -->
                     <td class="px-6 py-5">
                         <span class="bg-[#F9F8F6] text-stone-600 px-3 py-1 rounded-md text-xs border border-[#E8E6E1]">

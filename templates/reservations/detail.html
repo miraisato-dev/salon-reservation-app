@@ -40,9 +40,9 @@
                         <span class="text-body-lg font-medium">{{ time_range }}</span>
                     </div>
                 </div>
-                <div class="col-span-2 border-t border-[#F9F8F6] pt-6">
+                <div class="col-span-2 border-t border-[#E8E6E1] pt-6">
                     <span class="text-xs text-slate-400 font-semibold uppercase block mb-3">予約メモ</span>
-                    <div class="bg-[#F9F8F6] p-4 rounded-lg text-body-md text-slate-600 border-l-4 border-[#7A8E7C]">
+                    <div class="bg-[#F9F8F6] p-4 rounded-lg text-body-md text-slate-600 border-l-4 border-[#E8E6E1]">
                         --
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                     <span class="material-symbols-outlined text-slate-400 text-[20px]">mail</span>
                     {{ reservation.customer.email}}
                 </div>
-                <div class="pt-4 border-t border-[#F9F8F6]">
+                <div class="pt-4 border-t border-[#E8E6E1]">
                     <div class="flex justify-between text-xs mb-1">
                         <span class="text-slate-400">前回来店日</span>
                         <span class="text-on-surface font-medium">--</span>
@@ -154,7 +154,7 @@
                 会員詳細を見る
             </button> -->
             <a href="{{ url_for('customers_detail', customer_id=reservation.customer.customer_id) }}"
-                class="w-full py-2.5 bg-white border border-[#7A8E7C] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
+                class="w-full py-2.5 bg-white border border-[#E8E6E1] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
                 会員詳細を見る
             </a>
         </div>
@@ -192,7 +192,7 @@
                 スタイリスト詳細を見る
             </button> -->
             <a href="{{ url_for('stylists_detail', stylist_id=reservation.stylist.stylist_id) }}"
-                class="w-full py-2.5 bg-white border border-[#7A8E7C] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
+                class="w-full py-2.5 bg-white border border-[#E8E6E1] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
                 スタイリスト詳細を見る
             </a>
         </div>
