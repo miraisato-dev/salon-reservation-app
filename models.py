@@ -2,6 +2,8 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from sqlalchemy import CheckConstraint
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 # db.pyから
 from db import db
 
@@ -193,3 +195,29 @@ class MenuPrices(db.Model):
     __table_args__ = (
         CheckConstraint('price > 0', name='check_price_positive'),
     )
+
+
+
+#ログイン認証のため
+class Users(UserMixin, db.Model):
+    __tablename__ = "users"
+
+    user_id = db.Column(
+        db.Integer,
+        primary_key=True,
+        autoincrement=True
+    )
+    username = db.Column(db.String(30), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(20), default="staff")
+
+    # パスワードをハッシュ化して保存
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    # 入力されたパスワードとDBのハッシュを比較
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    def get_id(self):
+        return str(self.user_id)

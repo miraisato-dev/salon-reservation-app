@@ -2,7 +2,7 @@
 import os
 from flask import Flask, render_template, url_for, request, redirect, flash
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required, LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, func
 from flask_migrate import Migrate
@@ -11,11 +11,11 @@ from collections import defaultdict
 import locale
 # モデル読み込み
 from db import db
-from models import *
-from services.reservation_service import get_or_create_customer, calculate_end_time, is_conflict
-from forms import CustomerForm
+from models import db, Stylists, Customers, ReservationMenus, Reservations, MenuPrices, Menus, Ranks, Users
+from services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict
+from forms import CustomerForm, SignUpForm, LoginForm
 
-# =================
+# ================= 
 # インスタンス生成
 # ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 app = Flask(__name__)
@@ -37,11 +37,24 @@ app.config['SQLALCHEMY_ECHO'] = True
 db.init_app(app)
 # 「Flask_migrate」を使用できるようにする
 migrate = Migrate(app, db)
+# LoginManagerインスタンス
+login_manager = LoginManager()
+# LoginManagerとFlaskの紐付け
+login_manager.init_app(app)
+# 未認証のユーザーがアクセスしようとした際に
+# リダイレクトされる関数名を設定する
+login_manager.login_view = "login"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
+
+# viewのインポート
+# from views import *
 
 # =================
 # フィルター
 # ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
 
 # 日付計算フィルター(カレンダー系)
 @app.template_filter('add_days')
@@ -117,29 +130,83 @@ def format_yen(value):
 # ルーティング
 # ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 
-# ログイン
-@app.route('/login', methods=['GET', 'POST'])
+# ログイン(Form使用)
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    # POSTの場合 login処理を実行
-    if request.method == 'POST':
-        # フォームから受け取る
-        email = request.form.get('email')
-        password = request.form.get('password')
-
-        # 本来DBからユーザー取得
-        user = Customers.query.filter_by(email=email).first()
-
-        # ログイン成功
-        if user and check_password_hash(user.password, password):
+    # Formインスタンス生成
+    form = LoginForm()
+    if form.validate_on_submit():
+        # データ入力取得
+        username = form.username.data
+        password = form.password.data
+        # 対象User取得
+        user = Users.query.filter_by(username=username).first()
+        # 認証判定
+        if user is not None and user.check_password(password):
+            # 成功
+            # 引数として渡されたuserオブジェクトを使用してユーザーをログイン状態にする
             login_user(user)
-            return redirect('/')
+            # 画面遷移
+            return redirect(url_for("index"))
+        # 失敗
+        flash("認証不備です")
+    # GETの時
+    # 画面遷移図
+    return render_template("auth/login.html", form=form)
 
-        flash('ログイン失敗')
-    # GETの場合
-    return render_template('auth/login.html', page_title='ログイン画面')
+# ログアウト
+@app.route("/logout")
+@login_required
+def logout():
+    # 現在ログインしているユーザーをログアウトする
+    logout_user()
+    # フラッシュメッセージ
+    flash("ログアウトしました")
+    # 画面遷移
+    return redirect(url_for("login"))
+
+# サインアップ(Form使用)
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    # Formインスタンス生成
+    form = SignUpForm()
+    if form.validate_on_submit():
+        # データ入力取得
+        username = form.username.data
+        password = form.password.data
+        # モデルを生成
+        user = Users(username=username)
+        # パスワードハッシュ化
+        user.set_password(password)
+        # 登録処理
+        db.session.add(user)
+        db.session.commit()
+        # フラッシュメッセージ
+        flash("ユーザー登録しました")
+        # 画面遷移
+        return redirect(url_for("login"))
+    # GET時
+    # 画面遷移
+    return render_template("auth/register.html", form=form)
+
+
+# ゲストログイン
+@app.route("/guest-login", methods=["POST"])
+def guest_login():
+
+    guest_user = Users.query.filter_by(username="guest").first()
+
+    login_user(guest_user)
+
+    flash("ゲストログインしました")
+
+    return redirect(url_for("index"))
+
+
 
 # ダッシュボード(トップページ)
 @app.route('/', methods=['GET'])
+@login_required
 def index():
 
 
@@ -209,7 +276,7 @@ def customers_index():
             # {"label": "Home", "url": url_for("index")},
             {"label": "会員一覧"}
         ]
-        )
+    )
 
 # 会員登録
 @app.route('/customers/new', methods=['GET', 'POST'])
@@ -373,8 +440,6 @@ def reservations_index():
     else:
         query = query.order_by(Reservations.start_time.asc())
 
-
-        
     
     TAX_RATE = 0.10
 
@@ -564,7 +629,7 @@ def stylists_detail(stylist_id):
         years -= 1
 
     return render_template(
-        "stylists/detail.html", 
+        "stylists/detail.html",
         stylist=stylist,
         experience_years=years,
         page_title=stylist.stylist_name,

@@ -37,10 +37,23 @@
                     設定
                 </a>
                 <div class="h-px bg-[#E8E6E1]"></div>
-                <a class="block px-4 py-2 text-sm text-stone-500 hover:bg-[#F9F8F6] hover:text-red-500" href="#">
+                <a class="block px-4 py-2 text-sm text-stone-500 hover:bg-[#F9F8F6] hover:text-red-500"
+                    href="{{ url_for('logout') }}">
                     ログアウト
                 </a>
             </div>
         </div>
+
+        <div class="h-8 w-px bg-stone-200 mx-2"></div>
+        <div class="flex items-center space-x-2">
+            <span class="text-right hidden lg:block">
+                <p class="font-button text-button leading-none text-on-surface">Alex Rivera</p>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Salon Manager</p>
+            </span>
+            <img alt="Manager Profile" class="h-10 w-10 rounded-full object-cover border border-stone-200"
+                data-alt="professional male salon manager headshot with warm lighting and a soft neutral background"
+                src="" />
+        </div>
+    </div>
     </div>
 </header>

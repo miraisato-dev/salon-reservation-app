@@ -1,5 +1,0 @@
-/* static/pages/reservations.css */
-.reservation-grid {
-    display: grid;
-    gap: var(--stack-gap);
-}

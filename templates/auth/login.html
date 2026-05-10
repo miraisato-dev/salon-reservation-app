@@ -1,0 +1,152 @@
+{% extends "layout/base.html" %}
+
+{% block body %}
+
+<div class="bg-background min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-md flex flex-col items-center">
+
+        <!-- Logo -->
+        <div class="mb-8 text-center">
+            <h1 class="serif-text text-3xl font-bold tracking-tight text-brand-primary mb-2">
+                Flare HAIR SALON
+            </h1>
+            <p class="text-on-surface-variant font-medium tracking-widest text-xs uppercase">
+                Premium Salon Management
+            </p>
+        </div>
+
+        <!-- Card -->
+        <div class="w-full bg-surface-container-lowest border border-outline-variant shadow-sm rounded-xl p-8 md:p-10">
+
+            <div class="mb-8">
+                <h2 class="serif-text text-2xl font-semibold text-on-surface">
+                    Sign In
+                </h2>
+
+                <p class="text-on-surface-variant text-sm mt-2">
+                    サロン管理システムにログインしてください
+                </p>
+            </div>
+
+            <form method="POST" action="{{ url_for('login') }}" novalidate class="space-y-6">
+
+                {{ form.hidden_tag() }}
+
+                <!-- Username -->
+                <div class="space-y-2">
+
+                    {{ form.username.label(
+                    class="block text-sm font-semibold text-on-surface-variant"
+                    ) }}
+
+                    <div class="relative">
+
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
+                            person
+                        </span>
+
+                        {{ form.username(
+                        class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2
+                        focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all
+                        placeholder:text-outline-variant text-on-surface",
+                        placeholder="ユーザー名を入力"
+                        ) }}
+
+                    </div>
+
+                    {% for error in form.username.errors %}
+                    <p class="text-red-500 text-sm">{{ error }}</p>
+                    {% endfor %}
+
+                </div>
+
+                <!-- Password -->
+                <div class="space-y-2">
+
+                    {{ form.password.label(
+                    class="block text-sm font-semibold text-on-surface-variant"
+                    ) }}
+
+                    <div class="relative">
+
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
+                            lock
+                        </span>
+
+                        {{ form.password(
+                        class="w-full pl-10 pr-4 py-3 bg-surface border border-outline-variant rounded-lg focus:ring-2
+                        focus:ring-brand-primary/20 focus:border-brand-primary outline-none transition-all
+                        placeholder:text-outline-variant text-on-surface",
+                        placeholder="パスワードを入力"
+                        ) }}
+
+                    </div>
+
+                    {% for error in form.password.errors %}
+                    <p class="text-red-500 text-sm">{{ error }}</p>
+                    {% endfor %}
+
+                </div>
+
+                <!-- Flash Message -->
+                {% for message in get_flashed_messages() %}
+                <div class="text-red-500 text-sm">
+                    {{ message }}
+                </div>
+                {% endfor %}
+
+                <!-- Submit -->
+                {{ form.submit(
+                class="w-full bg-brand-primary hover:bg-[#6b7d6c] text-white font-semibold py-3.5 rounded-lg
+                transition-colors shadow-sm active:scale-[0.98] transition-transform"
+                ) }}
+
+
+            </form>
+
+
+
+
+            <!-- Divider -->
+            <div class="flex items-center gap-3 my-4">
+                <div class="h-px bg-outline-variant flex-1"></div>
+
+                <span class="text-xs text-on-surface-variant">
+                    または
+                </span>
+
+                <div class="h-px bg-outline-variant flex-1"></div>
+            </div>
+
+
+            <!-- Guest Login -->
+            <form method="POST" action="{{ url_for('guest_login') }}">
+
+                <button type="submit"
+                    class="w-full border border-outline-variant bg-surface hover:bg-surface-container text-on-surface font-semibold py-3.5 rounded-lg transition-all">
+
+                    ゲストログイン
+
+                </button>
+            </form>
+
+
+
+
+
+            <!-- Links -->
+            <div class="mt-8 pt-6 border-t border-outline-variant text-center">
+
+                <a href="{{ url_for('register') }}" class="text-sm font-medium text-brand-primary hover:underline">
+
+                    アカウントをお持ちでない場合はこちら
+
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
