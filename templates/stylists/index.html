@@ -1,9 +1,22 @@
 <!-- templates/stylists/index.html スタイリスト一覧 -->
 {% extends "layout/app_shell.html" %}
 
+{% from "components/content_header.html" import render as header %}
+
 {% block title %}スタイリスト一覧{% endblock %}
 
 {% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
 <!-- 会員一覧 Table Card　今後余裕があればカード化 -->
 <div class="bg-white border border-[#E8E6E1] rounded-xl shadow-sm overflow-hidden">
     <div class="overflow-x-auto">

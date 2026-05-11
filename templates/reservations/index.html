@@ -1,9 +1,22 @@
 <!-- templates/reservations/index.html 予約一覧ページ -->
 {% extends "layout/app_shell.html" %}
 
+{% from "components/content_header.html" import render as header %}
+
 {% block title %}予約一覧{% endblock %}
 
 {% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
 
 <!-- 日付検索等ナビゲーションバー マクロ化するかも -->
 <div class="bg-white border border-[#E8E6E1] rounded-xl p-4 flex items-center justify-between mb-8 shadow-sm">

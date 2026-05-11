@@ -1,9 +1,21 @@
 <!-- templates/menus/index.html メニュー一覧 -->
 {% extends "layout/app_shell.html" %}
 
+{% from "components/content_header.html" import render as header %}
+
 {% block title %}メニュー一覧{% endblock %}
 
 {% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
 
 <!-- Dashboard Stats Bento Style -->
 <!-- <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

@@ -1,10 +1,30 @@
 <!-- templates/customers/detail.html 会員詳細 -->
 
 {% extends "layout/app_shell.html" %}
+{% from "components/content_header.html" import render as header %}
 
 {% block title %}{{customer.full_name}} 様{% endblock %}
 
 {% block content %}
+
+<!-- ヘッダーの呼び出し -->
+{% call header(page_title=customer.full_name ~ " 様", breadcrumb_items=breadcrumb_items) %}
+<!-- ▼ ここに書いたものが、ヘッダーの右側に配置される！ ▼ -->
+
+<button
+    class="px-6 py-2 border border-[#E8E6E1] rounded-lg bg-white text-slate-600 font-button hover:bg-slate-50 transition-colors flex items-center gap-2">
+    <span class="material-symbols-outlined text-[20px]">print</span>
+    カルテ印刷
+</button>
+
+<a href="{{ url_for('customers_edit', customer_id=customer.customer_id) }}"
+    class="px-6 py-2 bg-[#7A8E7C] text-white rounded-lg font-button hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+    <span class="material-symbols-outlined text-[20px]">edit</span>
+    会員情報編集
+</a>
+
+<!-- ▲ ここまで ▲ -->
+{% endcall %}
 
 <!-- Content Canvas -->
 <div class="grid grid-cols-12 gap-8 items-start">
