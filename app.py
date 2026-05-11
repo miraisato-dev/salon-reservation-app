@@ -385,7 +385,12 @@ def customers_edit(customer_id):
     return render_template(
         'customers/edit.html', 
         customer=customer, 
-        page_title='会員情報変更'
+        page_title='会員情報変更',
+        breadcrumb_items=[
+                # {"label": "Home", "url": url_for("index")},
+                {"label": "会員一覧", "url": url_for("customers_index")},
+                {"label": customer.full_name}
+            ]
     )
 
 # 顧客情報削除
