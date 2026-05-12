@@ -1,4 +1,4 @@
-# app/auth/routes.py
+# app/auth/routes.py 認証関係
 from flask import (
     render_template,
     redirect,
