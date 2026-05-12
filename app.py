@@ -18,6 +18,11 @@ from services.stylists_service import calculate_experience_years
 
 from forms import CustomerForm, SignUpForm, LoginForm
 
+from filters import (
+    add_days, to_date_str, date_jp, time_hm,
+    datetime_jp, date_jp_full, phone, yen
+)
+
 # ================= 
 # インスタンス生成
 # ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -55,76 +60,14 @@ def load_user(user_id):
 # =================
 # フィルター
 # ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-# 日付計算フィルター(カレンダー系)
-@app.template_filter('add_days')
-def add_days(value, days):
-    if not value:
-        return None
-    return value + timedelta(days=days)
-
-# reservations/index.html
-@app.template_filter('to_date_str')
-def to_date_str(value):
-    if not value:
-        return ''
-    return value.strftime('%Y-%m-%d')
-
-# 日付フィルター
-@app.template_filter('date_jp')
-def format_date_jp(value):
-    if not value:
-        return '-'
-    return value.strftime('%Y/%m/%d')
-# {{ reservation.reservation_date | date_jp_full }}
-
-# 時間フィルター
-@app.template_filter('time_hm')
-def format_time(value):
-    if not value:
-        return '-'
-    return value.strftime('%H:%M')
-# {{ reservation.start_time | time_hm }}
-# 日時まとめフィルター
-@app.template_filter('datetime_jp')
-def format_datetime(value):
-    if not value:
-        return '-'
-    return value.strftime('%Y/%m/%d %H:%M')
-
-WEEKDAYS = ['月', '火', '水', '木', '金', '土', '日']
-
-@app.template_filter('date_jp_full')
-def format_date_jp_full(value):
-    if not value:
-        return '-'
-    return f"{value.year}年{value.month}月{value.day}日({WEEKDAYS[value.weekday()]})"
-# {{ customer.last_visit_date | date_jp_full }}
-
-# 電話番号フィルタ
-@app.template_filter('phone')
-def format_phone(value):
-    if not value:
-        return '-'
-
-    value = value.replace('-', '')  # 念のためハイフン除去
-
-    if len(value) == 11:
-        return f"{value[:3]}-{value[3:7]}-{value[7:]}"
-    elif len(value) == 10:
-        return f"{value[:2]}-{value[2:6]}-{value[6:]}"
-    
-    return value
-
-# 金額フィルタ
-@app.template_filter('yen')
-def format_yen(value):
-    if value is None:
-        return '-'
-    try:
-        return f"¥{int(value):,}"
-    except (ValueError, TypeError):
-        return '-'
+app.jinja_env.filters['add_days'] = add_days
+app.jinja_env.filters['to_date_str'] = to_date_str
+app.jinja_env.filters['date_jp'] = date_jp
+app.jinja_env.filters['time_hm'] = time_hm
+app.jinja_env.filters['datetime_jp'] = datetime_jp
+app.jinja_env.filters['date_jp_full'] = date_jp_full
+app.jinja_env.filters['phone'] = phone
+app.jinja_env.filters['yen'] = yen
 
 # =================
 # ルーティング

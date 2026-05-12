@@ -1,38 +1,47 @@
-4/25(Fri) treeコマンド：
-
-tree -L 3 -I "__pycache__|migrations|venv">tree.txt
+5/12(Tue)
+tree -I "node_modules|.git|.vscode|__pycache__|flask_env">tree.txt
 .
 ├── app.py
 ├── data.sqlite
 ├── db.py
+├── filters.py
 ├── 画面遷移図flare_salon.png
-├── flask_env
 ├── forms.py
+├── migrations
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions
+│       ├── 1babeebc1dd0_add_image_path_to_stylists.py
+│       ├── 409679fac50e_initial.py
+│       └── 6a916b98f388_create_users_table.py
 ├── models.py
 ├── requirements.txt
 ├── services
-│   └── reservation_service.py
+│   ├── dashboard_service.py
+│   ├── price_service.py
+│   ├── reservation_service.py
+│   └── stylists_service.py
 ├── static
-│   ├── base
-│   │   ├── layout.css
-│   │   ├── reset.css
-│   │   ├── style.css
-│   │   └── variables.css
-│   ├── components
-│   │   ├── badge.css
-│   │   ├── button.css
-│   │   ├── card.css
-│   │   ├── input.css
-│   │   ├── sidebar.css
-│   │   └── table.css
-│   ├── main.css
-│   └── pages
-│       ├── customers.css
-│       ├── menus.css
-│       ├── reservations.css
-│       └── stylists.css
+│   ├── images
+│   │   ├── stylist1.png
+│   │   ├── stylist2.png
+│   │   ├── stylist3.png
+│   │   ├── stylist4.png
+│   │   ├── stylist5.png
+│   │   └── stylist6.png
+│   └── js
+│       ├── customers_new.js
+│       └── reservations.js
+├── stitch_sample_.png
 ├── templates
+│   ├── auth
+│   │   ├── login.html
+│   │   └── register.html
 │   ├── components
+│   │   ├── breadcrumb.html
+│   │   ├── content_header.html
 │   │   ├── header.html
 │   │   └── sidebar.html
 │   ├── customers
@@ -64,3 +73,5 @@ tree -L 3 -I "__pycache__|migrations|venv">tree.txt
 │       ├── form.html
 │       └── index.html
 └── tree.txt
+
+17 directories, 57 files
