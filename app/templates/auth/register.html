@@ -1,0 +1,21 @@
+<!-- register_form.html -->
+{% extends "layout/base.html" %}
+
+{% block body %}
+<h1>ログイン</h1>
+{% from "_formhelpers.html" import render_field %}
+<form method="POST" action="{{ url_for('register') }}" novalidatate>
+    {{ form.hidden_tag() }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    <br>
+
+    {{ form.submit }}
+</form>
+
+<p>
+    すでにアカウントをお持ちの場合は、
+    <a href="{{ url_for('register') }}">こちら</a>
+    からログインしてください
+</p>
+{% endblock %}
