@@ -46,7 +46,7 @@ def login():
             # 引数として渡されたuserオブジェクトを使用してユーザーをログイン状態にする
             login_user(user)
             # 画面遷移
-            return redirect(url_for("index"))
+            return redirect(url_for("dashboard.index"))
         # 失敗
         flash("認証不備です")
     # GETの時
@@ -65,7 +65,7 @@ def logout():
     # フラッシュメッセージ
     flash("ログアウトしました")
     # 画面遷移
-    return redirect(url_for("login"))
+    return redirect(url_for("auth.login"))
 
 
 # サインアップ(Form使用)
@@ -103,4 +103,4 @@ def guest_login():
 
     flash("ゲストログインしました")
 
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard.index"))
