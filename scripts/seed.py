@@ -1,134 +1,38 @@
-#  salon_reservation_app/app.py
-import os
-from flask import render_template, url_for, request, redirect, flash
-from werkzeug.security import check_password_hash, generate_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, func
-from datetime import datetime, date, time, timedelta
-from collections import defaultdict
-import locale
-# モデル読み込み
+# scripts/seed.py
+
+from datetime import date, datetime, time
 
 from app import create_app
+from app.extensions import db
 
-from app.models import Stylists, Customers, Reservations, MenuPrices, Menus, Ranks
-from app.services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict, calculate_reservation_price
-from app.services.dashboard_service import calc_position
-from app.services.stylists_service import calculate_experience_years
+from app.models import (
+    Ranks,
+    Menus,
+    MenuPrices,
+    Stylists,
+    Customers,
+    Reservations,
+    ReservationMenus
+)
 
-from app.forms import CustomerForm, SignUpForm, LoginForm
+app = create_app()
 
+with app.app_context():
 
-# =================
-# ルーティング
-# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-
-# ダッシュボード(トップページ)
-@app.route('/', methods=['GET'])
-@login_required
-def index():
-
-
-    # routeで1日分を取得
-    today = date.today()
-
-    stylists = Stylists.query.all()
-
-    for stylist in stylists:
-        stylist.daily_reservations = [
-            r for r in stylist.reservations
-            if r.reservation_date == today and not r.is_cancelled
-        ]
-
-
-    # 全予約に適用
-    for stylist in stylists:
-        for r in stylist.daily_reservations:
-            calc_position(r)
-
-
-
-    return render_template(
-        'dashboard/index.html', 
-        page_title='ダッシュボード', 
-        stylists=stylists
+    # データ投入
+    rank_a = Ranks(
+        rank_id='A',
+        title='チーフスタイリスト'
     )
 
+    db.session.add(rank_a)
 
-# =================
-#   STYLISTS
-# =================
-# スタイリスト一覧
-@app.route('/stylists', methods=['GET'])
-def stylists_index():
-    stylists = Stylists.query.all()
-    
-    return render_template(
-        'stylists/index.html', 
-        stylists=stylists, 
-        page_title='スタイリスト一覧',
-        breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
-            {"label": "スタイリスト一覧"}
-        ]
-    )
+    db.session.commit()
+
+    print("seed ok")
 
 
-# スタイリスト詳細
-@app.route("/stylists/<stylist_id>")
-def stylists_detail(stylist_id):
-    stylist = Stylists.query.get(stylist_id)
 
-    years = calculate_experience_years(stylist.hire_date)
-
-    return render_template(
-        "stylists/detail.html",
-        stylist=stylist,
-        experience_years=years,
-        page_title=stylist.stylist_name,
-        sub_title="スタイリストの情報・予約・実績を確認します。",
-        breadcrumb_items=[
-            {"label": "スタイリスト一覧", "url": url_for("stylists_index")},
-            {"label": stylist.stylist_name }
-        ]
-    )
-
-# スタイリスト登録
-
-# スタイリスト情報編集
-# スタイリスト情報削除
-
-# =================
-#   MENU
-# =================
-# メニュー一覧
-@app.route('/menus', methods=['GET'])
-def menus_index():
-    menus = Menus.query.all()
-    ranks = Ranks.query.all()
-
-    TAX_RATE = 0.10 # 10%の消費税
-    
-    # MenuPricesを辞書化する
-    prices = defaultdict(dict)
-
-    for mp in MenuPrices.query.all():
-        prices[mp.menu_id][mp.rank_id] = {
-            "ex": mp.price,
-            "in": int(mp.price * (1 + TAX_RATE))
-        }
-
-    return render_template(
-        'menus/index.html', 
-        menus=menus, 
-        ranks=ranks,
-        prices=prices,
-        page_title='メニュー一覧',
-        breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
-            {"label": "メニュー一覧"}
-        ]
-    )
 
 '''
 # SQL
@@ -254,9 +158,3 @@ def init_db():
 
     return "初期データ投入OK"
     '''
-
-# =================
-# 実行
-# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)

@@ -1,12 +1,77 @@
-5/12(Tue)
-tree -I "node_modules|.git|.vscode|__pycache__|flask_env">tree.txt
 .
-├── app.py
+├── app
+│   ├── __init__.py
+│   ├── auth
+│   │   └── routes.py
+│   ├── customers
+│   │   └── routes.py
+│   ├── dashboard
+│   │   └── routes.py
+│   ├── extensions.py
+│   ├── filters.py
+│   ├── forms.py
+│   ├── menus
+│   │   └── routes.py
+│   ├── models.py
+│   ├── reservations
+│   │   └── routes.py
+│   ├── services
+│   │   ├── dashboard_service.py
+│   │   ├── price_service.py
+│   │   ├── reservation_service.py
+│   │   └── stylists_service.py
+│   ├── static
+│   │   ├── images
+│   │   │   ├── stylist1.png
+│   │   │   ├── stylist2.png
+│   │   │   ├── stylist3.png
+│   │   │   ├── stylist4.png
+│   │   │   ├── stylist5.png
+│   │   │   └── stylist6.png
+│   │   └── js
+│   │       ├── customers_new.js
+│   │       └── reservations.js
+│   ├── stylists
+│   │   └── routes.py
+│   └── templates
+│       ├── auth
+│       │   ├── login.html
+│       │   └── register.html
+│       ├── components
+│       │   ├── breadcrumb.html
+│       │   ├── content_header.html
+│       │   ├── header.html
+│       │   └── sidebar.html
+│       ├── customers
+│       │   ├── _form.html
+│       │   ├── detail.html
+│       │   ├── edit.html
+│       │   ├── index.html
+│       │   └── new.html
+│       ├── dashboard
+│       │   └── index.html
+│       ├── layout
+│       │   ├── app_shell.html
+│       │   └── base.html
+│       ├── menus
+│       │   ├── detail.html
+│       │   ├── form.html
+│       │   └── index.html
+│       ├── ranks
+│       │   ├── detail.html
+│       │   ├── form.html
+│       │   └── index.html
+│       ├── reservations
+│       │   ├── create.html
+│       │   ├── detail.html
+│       │   ├── edit.html
+│       │   └── index.html
+│       └── stylists
+│           ├── detail.html
+│           ├── form.html
+│           └── index.html
 ├── data.sqlite
-├── db.py
-├── filters.py
 ├── 画面遷移図flare_salon.png
-├── forms.py
 ├── migrations
 │   ├── alembic.ini
 │   ├── env.py
@@ -16,62 +81,11 @@ tree -I "node_modules|.git|.vscode|__pycache__|flask_env">tree.txt
 │       ├── 1babeebc1dd0_add_image_path_to_stylists.py
 │       ├── 409679fac50e_initial.py
 │       └── 6a916b98f388_create_users_table.py
-├── models.py
 ├── requirements.txt
-├── services
-│   ├── dashboard_service.py
-│   ├── price_service.py
-│   ├── reservation_service.py
-│   └── stylists_service.py
-├── static
-│   ├── images
-│   │   ├── stylist1.png
-│   │   ├── stylist2.png
-│   │   ├── stylist3.png
-│   │   ├── stylist4.png
-│   │   ├── stylist5.png
-│   │   └── stylist6.png
-│   └── js
-│       ├── customers_new.js
-│       └── reservations.js
-├── stitch_sample_.png
-├── templates
-│   ├── auth
-│   │   ├── login.html
-│   │   └── register.html
-│   ├── components
-│   │   ├── breadcrumb.html
-│   │   ├── content_header.html
-│   │   ├── header.html
-│   │   └── sidebar.html
-│   ├── customers
-│   │   ├── _form.html
-│   │   ├── detail.html
-│   │   ├── edit.html
-│   │   ├── index.html
-│   │   └── new.html
-│   ├── dashboard
-│   │   └── index.html
-│   ├── layout
-│   │   ├── app_shell.html
-│   │   └── base.html
-│   ├── menus
-│   │   ├── detail.html
-│   │   ├── form.html
-│   │   └── index.html
-│   ├── ranks
-│   │   ├── detail.html
-│   │   ├── form.html
-│   │   └── index.html
-│   ├── reservations
-│   │   ├── create.html
-│   │   ├── detail.html
-│   │   ├── edit.html
-│   │   └── index.html
-│   └── stylists
-│       ├── detail.html
-│       ├── form.html
-│       └── index.html
+├── run.py
+├── scripts
+│   └── seed.py
+├── tree_.txt
 └── tree.txt
 
-17 directories, 57 files
+25 directories, 64 files

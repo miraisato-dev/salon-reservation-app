@@ -1,10 +1,14 @@
+tree -I "node_modules|.git|.vscode|__pycache__|flask_env">tree_.txt
 .
 ├── app
-│   ├── app.py
+│   ├── __init__.py
 │   ├── auth
 │   │   └── routes.py
 │   ├── customers
 │   │   └── routes.py
+│   ├── dashboard
+│   │   └── routes.py
+│   ├── extensions.py
 │   ├── filters.py
 │   ├── forms.py
 │   ├── menus
@@ -67,9 +71,7 @@
 │           ├── detail.html
 │           ├── form.html
 │           └── index.html
-├── app.py
 ├── data.sqlite
-├── db.py
 ├── 画面遷移図flare_salon.png
 ├── migrations
 │   ├── alembic.ini
@@ -81,7 +83,10 @@
 │       ├── 409679fac50e_initial.py
 │       └── 6a916b98f388_create_users_table.py
 ├── requirements.txt
+├── run.py
+├── scripts
+│   └── seed.py
 ├── tree_.txt
 └── tree.txt
 
-23 directories, 62 files
+25 directories, 64 files

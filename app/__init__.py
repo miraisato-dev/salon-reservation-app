@@ -63,15 +63,16 @@ def create_app():
     # blueprint
     # =================
     # blueprint import (循環importを防ぐためにここでimportする)
-    from app.auth.routes import auth_bp
+    from app.dashboard.routes import dashboard_bp
     from app.auth.routes import auth_bp
     from app.customers.routes import customers_bp
     from app.reservations.routes import reservations_bp
     from app.stylists.routes import stylists_bp
     from app.menus.routes import menus_bp
 
+    
     # blueprint register
-    app.register_blueprint(auth_bp)
+    app.register_blueprint(dashboard_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(customers_bp)
     app.register_blueprint(reservations_bp)
