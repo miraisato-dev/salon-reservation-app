@@ -10,23 +10,21 @@ from datetime import datetime, date, time, timedelta
 from collections import defaultdict
 import locale
 # モデル読み込み
-from db import db
-from models import db, Stylists, Customers, Reservations, MenuPrices, Menus, Ranks, Users
-from services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict, calculate_reservation_price
-from services.dashboard_service import calc_position
-from services.stylists_service import calculate_experience_years
+from app.extensions import db
 
-from forms import CustomerForm, SignUpForm, LoginForm
+from app import create_app
 
-from filters import (
+from app.models import db, Stylists, Customers, Reservations, MenuPrices, Menus, Ranks, Users
+from app.services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict, calculate_reservation_price
+from app.services.dashboard_service import calc_position
+from app.services.stylists_service import calculate_experience_years
+
+from app.forms import CustomerForm, SignUpForm, LoginForm
+
+from app.filters import (
     add_days, to_date_str, date_jp, time_hm,
     datetime_jp, date_jp_full, phone, yen
 )
-
-# ================= 
-# インスタンス生成
-# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-app = Flask(__name__)
 
 # =================
 # Flaskに対する設定
