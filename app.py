@@ -1,71 +1,23 @@
 #  salon_reservation_app/app.py
 import os
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_login import login_user, logout_user, login_required, LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, func
-from flask_migrate import Migrate
 from datetime import datetime, date, time, timedelta
 from collections import defaultdict
 import locale
 # モデル読み込み
-from app.extensions import db
 
 from app import create_app
 
-from app.models import db, Stylists, Customers, Reservations, MenuPrices, Menus, Ranks, Users
+from app.models import Stylists, Customers, Reservations, MenuPrices, Menus, Ranks
 from app.services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict, calculate_reservation_price
 from app.services.dashboard_service import calc_position
 from app.services.stylists_service import calculate_experience_years
 
 from app.forms import CustomerForm, SignUpForm, LoginForm
 
-from app.filters import (
-    add_days, to_date_str, date_jp, time_hm,
-    datetime_jp, date_jp_full, phone, yen
-)
-
-# =================
-# Flaskに対する設定
-# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-# 乱数を設定
-app.config['SECRET_KEY'] = os.urandom(24)
-# 本番用
-# app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
-base_dir = os.path.dirname(__file__)
-database = 'sqlite:///' + os.path.join(base_dir, 'data.sqlite')
-app.config['SQLALCHEMY_DATABASE_URI'] = database
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
-
-# dbファイルをinitする
-db.init_app(app)
-# 「Flask_migrate」を使用できるようにする
-migrate = Migrate(app, db)
-# LoginManagerインスタンス
-login_manager = LoginManager()
-# LoginManagerとFlaskの紐付け
-login_manager.init_app(app)
-# 未認証のユーザーがアクセスしようとした際に
-# リダイレクトされる関数名を設定する
-login_manager.login_view = "login"
-
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(int(user_id))
-
-# =================
-# フィルター
-# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-app.jinja_env.filters['add_days'] = add_days
-app.jinja_env.filters['to_date_str'] = to_date_str
-app.jinja_env.filters['date_jp'] = date_jp
-app.jinja_env.filters['time_hm'] = time_hm
-app.jinja_env.filters['datetime_jp'] = datetime_jp
-app.jinja_env.filters['date_jp_full'] = date_jp_full
-app.jinja_env.filters['phone'] = phone
-app.jinja_env.filters['yen'] = yen
 
 # =================
 # ルーティング
