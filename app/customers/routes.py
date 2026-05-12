@@ -44,7 +44,7 @@ def customers_index():
         customers=customers, 
         page_title='会員一覧',
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "会員一覧"}
         ]
     )
@@ -92,7 +92,7 @@ def customers_new():
         form=form, 
         page_title='新規会員登録',
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "会員一覧", "url": url_for("customers.customers_index")},
             {"label": "会員登録"}
         ]
@@ -122,7 +122,7 @@ def customers_detail(customer_id):
         total_visits=len(reservations), # 来店回数のため
         page_title=f"{customer.full_name} 様",
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "会員一覧", "url": url_for("customers.customers_index")},
             {"label": customer.full_name}
         ]
@@ -146,7 +146,7 @@ def customers_edit(customer_id):
             customer_id=customer_id),
             page_title='会員詳細',
             breadcrumb_items=[
-                # {"label": "Home", "url": url_for("index")},
+                # {"label": "Home", "url": url_for("dashboard.index")},
                 {"label": "会員一覧", "url": url_for("customers.customers_index")},
                 {"label": customer.full_name}
             ]
@@ -158,7 +158,7 @@ def customers_edit(customer_id):
         customer=customer, 
         page_title='会員情報変更',
         breadcrumb_items=[
-                # {"label": "Home", "url": url_for("index")},
+                # {"label": "Home", "url": url_for("dashboard.dashboard.index")},
                 {"label": "会員一覧", "url": url_for("customers.customers_index")},
                 {"label": customer.full_name}
             ]

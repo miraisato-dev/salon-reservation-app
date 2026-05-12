@@ -166,7 +166,7 @@ breadcrumb_items=breadcrumb_items
                 class="w-full py-2.5 bg-white border border-[#7A8E7C] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors">
                 会員詳細を見る
             </button> -->
-            <a href="{{ url_for('customers_detail', customer_id=reservation.customer.customer_id) }}"
+            <a href="{{ url_for('customers.customers_detail', customer_id=reservation.customer.customer_id) }}"
                 class="w-full py-2.5 bg-white border border-[#E8E6E1] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
                 会員詳細を見る
             </a>
@@ -204,7 +204,7 @@ breadcrumb_items=breadcrumb_items
                 class="w-full py-2.5 bg-white border border-[#E8E6E1] text-slate-600 rounded-lg font-button text-xs hover:bg-slate-50 transition-colors">
                 スタイリスト詳細を見る
             </button> -->
-            <a href="{{ url_for('stylists_detail', stylist_id=reservation.stylist.stylist_id) }}"
+            <a href="{{ url_for('stylists.stylists_detail', stylist_id=reservation.stylist.stylist_id) }}"
                 class="w-full py-2.5 bg-white border border-[#E8E6E1] text-[#7A8E7C] rounded-lg font-button text-xs hover:bg-[#F9F8F6] transition-colors inline-block text-center">
                 スタイリスト詳細を見る
             </a>

@@ -40,7 +40,7 @@ def stylists_index():
         stylists=stylists, 
         page_title='スタイリスト一覧',
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "スタイリスト一覧"}
         ]
     )

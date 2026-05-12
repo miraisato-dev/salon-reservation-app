@@ -47,7 +47,7 @@ def menus_index():
         prices=prices,
         page_title='メニュー一覧',
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "メニュー一覧"}
         ]
     )

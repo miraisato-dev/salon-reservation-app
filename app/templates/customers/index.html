@@ -15,7 +15,7 @@ breadcrumb_items=breadcrumb_items
 ) %}
 {# 右側に「編集ボタン」などを置きたい場合はここに書く #}
 
-<a href="{{ url_for('customers_new') }}"
+<a href="{{ url_for('customers.customers_new') }}"
     class="px-6 py-2 bg-[#7A8E7C] text-white rounded-lg font-button hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
     <span class="material-symbols-outlined" data-icon="add">add</span>
     新規会員登録
@@ -40,7 +40,7 @@ breadcrumb_items=breadcrumb_items
             <tbody class="divide-y divide-[#E8E6E1]">
                 {% for customer in customers %}
                 <tr class="cursor-pointer hover:bg-[#F9F8F6]"
-                    data-href="{{ url_for('customers_detail', customer_id=customer.customer_id) }}">
+                    data-href="{{ url_for('customers.customers_detail', customer_id=customer.customer_id) }}">
                     <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
                     <!-- Column 1 会員番号 -->
                     <td class=" px-6 py-5">

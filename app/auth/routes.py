@@ -87,7 +87,7 @@ def register():
         # フラッシュメッセージ
         flash("ユーザー登録しました")
         # 画面遷移
-        return redirect(url_for("login"))
+        return redirect(url_for("auth.login"))
     # GET時
     # 画面遷移
     return render_template("auth/register.html", form=form)

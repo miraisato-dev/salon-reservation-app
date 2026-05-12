@@ -102,7 +102,7 @@ def reservations_index():
         page_title="予約一覧",
         sub_title = "本日の予約状況を確認・管理します。",
         breadcrumb_items=[
-            # {"label": "Home", "url": url_for("index")},
+            # {"label": "Home", "url": url_for("dashboard.index")},
             {"label": "予約一覧"}
         ]
     )

@@ -34,7 +34,7 @@ breadcrumb_items=breadcrumb_items
             <tbody class="divide-y divide-[#E8E6E1]">
                 {% for stylist in stylists %}
                 <tr class="cursor-pointer hover:bg-[#F9F8F6]"
-                    data-href="{{ url_for('stylists_detail', stylist_id=stylist.stylist_id) }}">
+                    data-href="{{ url_for('stylists.stylists_detail', stylist_id=stylist.stylist_id) }}">
                     <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
                     <!-- Column 1 スタイリストID -->
                     <td class=" px-6 py-5">

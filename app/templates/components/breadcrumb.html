@@ -7,7 +7,7 @@
                 <span class="text-primary font-medium">〇〇詳細</span>
             </nav> -->
 <nav class="flex items-center gap-2 text-slate-400 text-xs mb-2">
-    <a href="{{ url_for('index') }}" class="hover:text-primary cursor-pointer">Home</a>
+    <a href="{{ url_for('dashboard.index') }}" class="hover:text-primary cursor-pointer">Home</a>
 
     {% for item in items %}
     <span class="material-symbols-outlined text-[14px]">chevron_right</span>

@@ -95,7 +95,7 @@ breadcrumb_items=breadcrumb_items
             <tbody class="divide-y divide-[#E8E6E1]">
                 {% for reservation in reservations %}
                 <tr class="cursor-pointer hover:bg-[#F9F8F6]"
-                    data-href="{{ url_for('reservations_detail', reservation_id=reservation.reservation_id) }}">
+                    data-href="{{ url_for('reservations.reservations_detail', reservation_id=reservation.reservation_id) }}">
                     <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
                     <!-- Column 1 予約日時 -->
                     <td class=" px-6 py-5">

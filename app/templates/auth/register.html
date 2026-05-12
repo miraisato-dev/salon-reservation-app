@@ -4,7 +4,7 @@
 {% block body %}
 <h1>ログイン</h1>
 {% from "_formhelpers.html" import render_field %}
-<form method="POST" action="{{ url_for('register') }}" novalidatate>
+<form method="POST" action="{{ url_for('auth.register') }}" novalidatate>
     {{ form.hidden_tag() }}
     {{ render_field(form.username) }}
     {{ render_field(form.password) }}
@@ -15,7 +15,7 @@
 
 <p>
     すでにアカウントをお持ちの場合は、
-    <a href="{{ url_for('register') }}">こちら</a>
+    <a href="{{ url_for('auth.register') }}">こちら</a>
     からログインしてください
 </p>
 {% endblock %}
