@@ -28,7 +28,7 @@
                 </p>
             </div>
 
-            <form method="POST" action="{{ url_for('login') }}" novalidate class="space-y-6">
+            <form method="POST" action="{{ url_for('auth.login') }}" novalidate class="space-y-6">
 
                 {{ form.hidden_tag() }}
 
@@ -120,7 +120,7 @@
 
 
             <!-- Guest Login -->
-            <form method="POST" action="{{ url_for('guest_login') }}">
+            <form method="POST" action="{{ url_for('auth.guest_login') }}">
 
                 <button type="submit"
                     class="w-full border border-outline-variant bg-surface hover:bg-surface-container text-on-surface font-semibold py-3.5 rounded-lg transition-all">
@@ -137,7 +137,7 @@
             <!-- Links -->
             <div class="mt-8 pt-6 border-t border-outline-variant text-center">
 
-                <a href="{{ url_for('register') }}" class="text-sm font-medium text-brand-primary hover:underline">
+                <a href="{{ url_for('auth.register') }}" class="text-sm font-medium text-brand-primary hover:underline">
 
                     アカウントをお持ちでない場合はこちら
 
