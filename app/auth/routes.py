@@ -54,3 +54,53 @@ def login():
         "auth/login.html", 
         form=form
     )
+
+
+# ログアウト
+@auth_bp.route("/logout")
+@login_required
+def logout():
+    # 現在ログインしているユーザーをログアウトする
+    logout_user()
+    # フラッシュメッセージ
+    flash("ログアウトしました")
+    # 画面遷移
+    return redirect(url_for("login"))
+
+
+# サインアップ(Form使用)
+@auth_bp.route("/register", methods=["GET", "POST"])
+def register():
+    # Formインスタンス生成
+    form = SignUpForm()
+    if form.validate_on_submit():
+        # データ入力取得
+        username = form.username.data
+        password = form.password.data
+        # モデルを生成
+        user = Users(username=username)
+        # パスワードハッシュ化
+        user.set_password(password)
+        # 登録処理
+        db.session.add(user)
+        db.session.commit()
+        # フラッシュメッセージ
+        flash("ユーザー登録しました")
+        # 画面遷移
+        return redirect(url_for("login"))
+    # GET時
+    # 画面遷移
+    return render_template("auth/register.html", form=form)
+
+
+# ゲストログイン
+@auth_bp.route("/guest-login", methods=["POST"])
+def guest_login():
+
+    guest_user = Users.query.filter_by(username="guest").first()
+
+    login_user(guest_user)
+
+    flash("ゲストログインしました")
+
+    return redirect(url_for("index"))
