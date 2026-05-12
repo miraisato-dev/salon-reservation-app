@@ -11,8 +11,11 @@ from collections import defaultdict
 import locale
 # モデル読み込み
 from db import db
-from models import db, Stylists, Customers, ReservationMenus, Reservations, MenuPrices, Menus, Ranks, Users
-from services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict
+from models import db, Stylists, Customers, Reservations, MenuPrices, Menus, Ranks, Users
+from services.reservation_service import calculate_end_time, get_or_create_customer, is_conflict, calculate_reservation_price
+from services.dashboard_service import calc_position
+from services.stylists_service import calculate_experience_years
+
 from forms import CustomerForm, SignUpForm, LoginForm
 
 # ================= 
@@ -48,9 +51,6 @@ login_manager.login_view = "login"
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
-
-# viewのインポート
-# from views import *
 
 # =================
 # フィルター
@@ -220,21 +220,6 @@ def index():
             r for r in stylist.reservations
             if r.reservation_date == today and not r.is_cancelled
         ]
-
-    
-    # position計算
-    def calc_position(res):
-        base_hour = 9
-        px_per_hour = 80
-
-        start_min = (res.start_time.hour - base_hour) * 60 + res.start_time.minute
-        duration = (
-            (res.end_time.hour * 60 + res.end_time.minute) -
-            (res.start_time.hour * 60 + res.start_time.minute)
-        )
-
-        res.top = start_min / 60 * px_per_hour
-        res.height = duration / 60 * px_per_hour
 
 
     # 全予約に適用
@@ -458,19 +443,7 @@ def reservations_index():
 
     # 各予約ごとに合計を計算
     for reservation in reservations:
-        total_ex = 0
-        total_in = 0
-
-        rank_id = reservation.stylist.rank_id
-
-        for menu in reservation.menus:
-            price_data = prices.get(menu.menu_id, {}).get(rank_id)
-
-            if price_data:
-                total_ex += price_data["ex"]
-                total_in += price_data["in"]
-        
-        # 予約オブジェクトに追加
+        total_ex, total_in = calculate_reservation_price(reservation, prices)
         reservation.total_ex = total_ex
         reservation.total_in = total_in
 
@@ -528,12 +501,6 @@ def reservations_detail(reservation_id):
     rank_id = reservation.stylist.rank_id
     stylist = reservation.stylist
 
-    # 予約の日付を取得＋曜日を日本語に変える
-    # locale.setlocale(locale.LC_TIME, 'ja_JP.UTF-8')
-    # dt = reservation.reservation_date
-    # weekday = dt.strftime('%a')
-    # formatted_date = f"{dt.year}年{dt.month}月{dt.day}日({dt.strftime('%a')})"
-
     # 時間と予想所要時間
     duration = (
         datetime.combine(date.today(), reservation.end_time) -
@@ -561,15 +528,10 @@ def reservations_detail(reservation_id):
         }
 
     # ②使用フェーズ
-    total_ex = 0
-    total_in = 0
-
-    for menu in reservation.menus:
-        price_data = prices.get(menu.menu_id, {}).get(rank_id)
-
-        if price_data:
-            total_ex += price_data["ex"]
-            total_in += price_data["in"]
+# 各予約ごとに合計を計算
+    total_ex, total_in = calculate_reservation_price(reservation, prices)
+    reservation.total_ex = total_ex
+    reservation.total_in = total_in
 
     # 勤続年数計算
     today = date.today()
@@ -625,13 +587,7 @@ def stylists_index():
 def stylists_detail(stylist_id):
     stylist = Stylists.query.get(stylist_id)
 
-    # 勤続年数計算
-    today = date.today()
-    years = today.year - stylist.hire_date.year
-    
-    # まだ今年の入店日を迎えてない場合は-1
-    if (today.month, today.day) < (stylist.hire_date.month, stylist.hire_date.day):
-        years -= 1
+    years = calculate_experience_years(stylist.hire_date)
 
     return render_template(
         "stylists/detail.html",
