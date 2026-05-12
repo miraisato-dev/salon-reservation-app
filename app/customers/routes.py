@@ -1,17 +1,19 @@
-# app/customers/routes.py CUSTOMER関係
+# app/customers/routes.py
+
 from flask import (
-    Blueprint,
-    render_template,
-    request,
-    redirect,
-    url_for,
-    flash
+    Blueprint, render_template,
+    request, redirect, url_for, flash
 )
 
 from sqlalchemy import or_
 
 from app.extensions import db
-from app.models import Customers, Reservations
+
+from app.models import (
+    Customers,
+    Reservations
+)
+
 from app.forms import CustomerForm
 
 customers_bp = Blueprint(
@@ -83,7 +85,7 @@ def customers_new():
 
         db.session.commit()
         # customers_indexは関数名
-        return redirect(url_for('customers_index'))
+        return redirect(url_for('customers.customers_index'))
     # GETの場合
     return render_template(
         'customers/new.html', 
@@ -91,7 +93,7 @@ def customers_new():
         page_title='新規会員登録',
         breadcrumb_items=[
             # {"label": "Home", "url": url_for("index")},
-            {"label": "会員一覧", "url": url_for("customers_index")},
+            {"label": "会員一覧", "url": url_for("customers.customers_index")},
             {"label": "会員登録"}
         ]
     )
@@ -121,7 +123,7 @@ def customers_detail(customer_id):
         page_title=f"{customer.full_name} 様",
         breadcrumb_items=[
             # {"label": "Home", "url": url_for("index")},
-            {"label": "会員一覧", "url": url_for("customers_index")},
+            {"label": "会員一覧", "url": url_for("customers.customers_index")},
             {"label": customer.full_name}
         ]
     )
@@ -145,7 +147,7 @@ def customers_edit(customer_id):
             page_title='会員詳細',
             breadcrumb_items=[
                 # {"label": "Home", "url": url_for("index")},
-                {"label": "会員一覧", "url": url_for("customers_index")},
+                {"label": "会員一覧", "url": url_for("customers.customers_index")},
                 {"label": customer.full_name}
             ]
         )
@@ -157,7 +159,7 @@ def customers_edit(customer_id):
         page_title='会員情報変更',
         breadcrumb_items=[
                 # {"label": "Home", "url": url_for("index")},
-                {"label": "会員一覧", "url": url_for("customers_index")},
+                {"label": "会員一覧", "url": url_for("customers.customers_index")},
                 {"label": customer.full_name}
             ]
     )
