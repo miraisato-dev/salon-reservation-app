@@ -1,0 +1,133 @@
+<!-- templates/stylists/detail.html スタイリスト詳細 -->
+
+{% extends "layout/app_shell.html" %}
+
+{% from "components/content_header.html" import render as header %}
+
+{% block title %}スタイリスト詳細{% endblock %}
+
+{% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
+
+<!-- Simplified Profile Card -->
+<div class="bg-white border border-[#E8E6E1] rounded-2xl overflow-hidden shadow-sm">
+    <div class="p-8 md:p-12">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-12">
+            <!-- Avatar Section -->
+            <div class="relative shrink-0">
+                <div class="w-48 h-48 rounded-full bg-primary object-cover ring-8 ring-stone-50">
+                    <img alt="Stylists" class="w-48 h-48 rounded-full object-cover ring-8 ring-stone-50"
+                        src="{{ stylist.image_path }}">
+                </div>
+                <div
+                    class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#7A8E7C] text-white px-5 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase shadow-md">
+                    {{ stylist.rank.rank_id if stylist.rank_id else "no rank" }}
+                </div>
+            </div>
+            <!-- Core Information -->
+            <div class="flex-1 text-center md:text-left">
+                <div class="mb-8">
+                    <h2 class="font-headline-lg text-4xl text-on-surface mb-2">{{ stylist.stylist_name }}</h2>
+                    <p class="text-stone-500 font-body-lg italic">
+                        {{ stylist.rank.title if stylist.rank else "ランクなし" }}
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 max-w-sm mx-auto md:mx-0">
+                    <div>
+                        <p class="text-stone-400 text-[10px] uppercase font-bold tracking-[0.2em] mb-2">Hire Date</p>
+                        <div class="flex flex-col">
+                            <span class="font-headline-md text-2xl text-primary">{{ stylist.hire_date }}</span>
+                            <span class="text-stone-400 text-xs mt-1 font-medium">(入社日)</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-stone-400 text-[10px] uppercase font-bold tracking-[0.2em] mb-2">Experience</p>
+                        <div class="flex flex-col">
+                            <span class="font-headline-md text-2xl text-primary">{{ experience_years }}</span>
+                            <span class="text-stone-400 text-xs mt-1 font-medium">(勤続年数)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tags -->
+                <div class="mt-10 pt-10 border-t border-stone-100">
+                    <p class="text-stone-400 text-[10px] uppercase font-bold tracking-[0.2em] mb-4">Focus Areas</p>
+                    <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                        <span
+                            class="px-4 py-1.5 bg-stone-50 border border-stone-200 rounded-full text-label-sm text-stone-600">Balayage
+                            Expert</span>
+                        <span
+                            class="px-4 py-1.5 bg-stone-50 border border-stone-200 rounded-full text-label-sm text-stone-600">Dry
+                            Cutting</span>
+                        <span
+                            class="px-4 py-1.5 bg-stone-50 border border-stone-200 rounded-full text-label-sm text-stone-600">Bridal
+                            Styling</span>
+                        <span
+                            class="px-4 py-1.5 bg-stone-50 border border-stone-200 rounded-full text-label-sm text-stone-600">Color
+                            Correction</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Availability Card -->
+<div class="mt-8 bg-white border border-[#E8E6E1] rounded-2xl p-8 shadow-sm">
+    <div class="flex justify-between items-center mb-8">
+        <h3 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">event_available</span>
+            Current Availability
+        </h3>
+        <span class="text-label-sm text-stone-400 italic">Central Standard Time (CST)</span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div class="text-center p-4 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Mon</p>
+            <p class="font-button text-stone-400">OFF</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white border border-emerald-100 ring-1 ring-emerald-50">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Tue</p>
+            <p class="font-button text-primary">09 — 18</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white border border-emerald-100 ring-1 ring-emerald-50">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Wed</p>
+            <p class="font-button text-primary">09 — 18</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white border border-emerald-100 ring-1 ring-emerald-50">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Thu</p>
+            <p class="font-button text-primary">11 — 20</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-white border border-emerald-100 ring-1 ring-emerald-50">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Fri</p>
+            <p class="font-button text-primary">09 — 18</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-primary/5 border border-primary/20">
+            <p class="font-label-sm text-primary-container mb-2 uppercase tracking-widest font-bold text-[10px]">Sat</p>
+            <p class="font-button text-primary">10 — 16</p>
+        </div>
+        <div class="text-center p-4 rounded-xl bg-stone-50 border border-stone-100">
+            <p class="font-label-sm text-stone-400 mb-2 uppercase tracking-widest text-[10px]">Sun</p>
+            <p class="font-button text-stone-400">OFF</p>
+        </div>
+    </div>
+</div>
+</div>
+</main>
+<!-- FAB Action -->
+<div class="fixed bottom-8 right-8 z-50">
+    <button
+        class="flex items-center gap-3 bg-[#7A8E7C] text-white px-8 py-4 rounded-full shadow-2xl hover:bg-emerald-900 transition-all hover:scale-105 active:scale-95 group">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+        <span class="font-button text-button">{{ stylist.stylist_name}}で予約する</span>
+    </button>
+</div>
+{% endblock %}

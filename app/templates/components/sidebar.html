@@ -1,0 +1,53 @@
+<!-- templates/components/sidebar.html -->
+<!-- サイドバー -->
+<nav class="fixed left-0 top-0 h-screen w-64 z-50 border-r border-[#E8E6E1] bg-white flex flex-col py-8">
+    <div class="px-8 mb-10">
+        <a href="{{ url_for('dashboard.index')}}">
+            <h1 class="text-2xl font-serif font-black text-[#7A8E7C]">Flare</h1>
+            <p class="text-[10px] tracking-[0.2em] text-[#7A8E7C]">HAIR SALON</p>
+        </a>
+    </div>
+
+    <div class="flex-grow flex flex-col text-sm">
+        <a href="{{ url_for('reservations.reservations_index') }}"
+            class="flex items-center gap-2 py-3 px-6 hover:bg-gray-100">
+            <!-- flex＝横並び、items-center=縦中央揃え, gap-2=アイコンと文字の感覚, 
+            py-3=padding top+button: 0.75em, px-6=padding-top+button: 1.5em -->
+            <span class="material-symbols-outlined">home</span>
+            予約一覧
+        </a>
+        <a href="{{ url_for('customers.customers_index') }}"
+            class="flex items-center gap-2 py-3 px-6 hover:bg-gray-100">
+            <span class="material-symbols-outlined">person</span>
+            会員一覧
+        </a>
+        <a href="{{ url_for('stylists.stylists_index') }}" class="flex items-center gap-2 py-3 px-6 hover:bg-gray-100">
+            <span class="material-symbols-outlined">content_cut</span>
+            スタイリスト一覧
+        </a>
+        <a href="{{ url_for('menus.menus_index') }}" class="flex items-center gap-2 py-3 px-6 hover:bg-gray-100">
+            <span class="material-symbols-outlined">menu_book</span>
+            メニュー一覧
+        </a>
+        <a href="#" class="flex items-center gap-2 py-3 px-6 hover:bg-gray-100">
+            <span class="material-symbols-outlined">settings</span>
+            設定
+        </a>
+    </div>
+
+    <div class="mt-auto px-4 space-y-4">
+        <a href="{{ url_for('reservations.reservations_create') }}"
+            class="w-full py-3 bg-[#7A8E7C] text-[#fff] text-on-primary rounded-lg font-button flex items-center justify-center space-x-2 shadow-sm hover:opacity-90 transition-opacity">
+            <span class="material-symbols-outlined" data-icon="add">add</span>
+            <span>New Appointment</span>
+        </a>
+
+        <div class="px-6 pt-6 border-t border-[#E8E6E1] mt-auto">
+            <a href="{{ url_for('auth.logout') }}"
+                class="flex items-center gap-3 py-0 text-stone-500 hover:text-[#7A8E7C] transition-all duration-300">
+                <span class="material-symbols-outlined">logout</span>
+                <span>ログアウト</span>
+            </a>
+        </div>
+    </div>
+</nav>

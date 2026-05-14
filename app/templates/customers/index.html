@@ -1,0 +1,104 @@
+<!-- templates/customers/index.html 会員一覧 -->
+{% extends "layout/app_shell.html" %}
+
+{% from "components/content_header.html" import render as header %}
+
+{% block title %}会員一覧{% endblock %}
+
+{% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+<a href="{{ url_for('customers.customers_new') }}"
+    class="px-6 py-2 bg-[#7A8E7C] text-white rounded-lg font-button hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+    <span class="material-symbols-outlined" data-icon="add">add</span>
+    新規会員登録
+</a>
+
+{% endcall %}
+
+<!-- 会員一覧 Table Card -->
+<div class="bg-white border border-[#E8E6E1] rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-[#F9F8F6] border-b border-[#E8E6E1]">
+                    <th class="px-6 py-4 font-button text-button text-stone-600">会員番号</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">お客様名</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">電話番号</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">最終来店日</th>
+                    <!-- ３点リーダー用 -->
+                    <th class="px-6 py-4 font-button text-button text-stone-600"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-[#E8E6E1]">
+                {% for customer in customers %}
+                <tr class="cursor-pointer hover:bg-[#F9F8F6]"
+                    data-href="{{ url_for('customers.customers_detail', customer_id=customer.customer_id) }}">
+                    <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
+                    <!-- Column 1 会員番号 -->
+                    <td class=" px-6 py-5">
+                        <span class="text-stone-800 font-bold">
+                            {{ customer.customer_id }}
+                        </span>
+                    </td>
+                    <!-- Column 2 お客様名 -->
+                    <td class="px-6 py-5">
+                        <div class="flex items-center gap-3">
+                            <!-- <img alt="Customer" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="Portrait of a fashionable young Japanese woman with stylish hair, neutral background, elegant lighting, soft focus"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLNOiRskLYs3HxELOB0zghAc6xJQqdcEVAtVvEGC-ByHfy2y4qXNeWN96h1djzVxe0t20wWYNkbQhfRDf6r3OZ3dedO83mXBq-AxoEosZlfxifiSser4NoKMoz0m8z2HUOyyWadwJGem1nl0NBLzvjCunEnQdvDcaQL_YnebaavR3w3o_uWEs2u-cavyRy5b9s0s4k_mWACyKpwX7VrNJX95rDWoz14Nq4DBzy1YE35yefNZa7VVR-WkOM1Nm-SJ79bUAaTNr0ef4" /> -->
+                            <div>
+                                <p class="text-stone-900 font-semibold">{{ customer.full_name }}</p>
+                                <p class="text-[10px] text-stone-400">{{ customer.customer_id }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Column 3 電話番号 -->
+                    <td class="px-6 py-5 text-stone-600">{{customer.phone_number | phone }}</td>
+                    <!-- Column 4 最終来店日 -->
+                    <td class="px-6 py-5">
+                        <span class="bg-[#F9F8F6] text-stone-600 px-3 py-1 rounded-md text-xs border border-[#E8E6E1]">
+                            {% if customer.last_visit_date %}
+                            {{ customer.last_visit_date | date_jp_full }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </span>
+                    </td>
+                    <!-- Column 5 ３点リーダー -->
+                    <td class="px-6 py-5 text-right align-middle">
+                        <button class="text-stone-400 hover:text-stone-800 transition-colors">
+                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination / Table Footer -->
+    <div class="px-6 py-4 bg-[#F9F8F6] border-t border-[#E8E6E1] flex items-center justify-between">
+        <p class="text-xs text-stone-500">全 24 件中 1-4 件を表示</p>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-400 cursor-not-allowed">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_before">navigate_before</span>
+            </button>
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-600 hover:bg-stone-50">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_next">navigate_next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/reservations.js') }}"></script>
+{% endblock %}

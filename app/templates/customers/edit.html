@@ -1,0 +1,35 @@
+<!-- templates/customers/edit.html -->
+{% extends "layout/app_shell.html" %}
+
+{% from "components/content_header.html" import render as header %}
+
+{% block title %}会員情報編集{% endblock %}
+
+{% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
+<!-- <div class="mx-auto max-w-2xl"> -->
+
+<form action="{{ url_for('customers.customers_edit', customer_id=customer.customer_id) }}" method="POST"
+    class="bg-white p-8 rounded-xl border border-stone-200 shadow-sm space-y-6">
+    <!-- 同じ部品(customers/_form.html)を呼び出す -->
+    {% include "customers/_form.html" %}
+
+    <div class="flex items-center justify-end gap-4 pt-6 border-t">
+        <a href="{{ request.referrer or url_for('customers.customers_detail', customer_id=customer.customer_id) }}"
+            class="px-6 py-2 text-stone-500">キャンセル</a>
+        <button type="submit"
+            class="bg-[#7A8E7C] text-white px-10 py-3 rounded-lg shadow-md hover:opacity-90 transition-opacity">変更を保存</button>
+    </div>
+</form>
+<!-- </div> -->
+{% endblock %}

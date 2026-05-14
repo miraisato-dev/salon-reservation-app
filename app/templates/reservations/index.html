@@ -1,0 +1,175 @@
+<!-- templates/reservations/index.html 予約一覧ページ -->
+{% extends "layout/app_shell.html" %}
+
+{% from "components/content_header.html" import render as header %}
+
+{% block title %}予約一覧{% endblock %}
+
+{% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
+
+<!-- 日付検索等ナビゲーションバー マクロ化するかも -->
+<div class="bg-white border border-[#E8E6E1] rounded-xl p-4 flex items-center justify-between mb-8 shadow-sm">
+
+    <div class="flex items-center gap-4">
+        <a href="?date={{ current_date | add_days(-1) | to_date_str }}"
+            class="w-10 h-10 flex items-center justify-center border border-[#E8E6E1] rounded-lg hover:bg-[#F9F8F6] text-stone-600 transition-colors">
+            <span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+        </a>
+        <div class="text-center px-4">
+            <h3 class="font-headline-md text-headline-md text-on-surface">{{ current_date | date_jp_full }}</h3>
+        </div>
+        <a href="?date={{ current_date | add_days(1) | to_date_str }}"
+            class="w-10 h-10 flex items-center justify-center border border-[#E8E6E1] rounded-lg hover:bg-[#F9F8F6] text-stone-600 transition-colors">
+            <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+        </a>
+    </div>
+
+    <form method="get" class="flex items-center gap-2">
+        <!-- スタイリストフィルター -->
+        <select name="stylist" onchange="this.form.submit()"
+            class="h-10 border border-[#E8E6E1] rounded-lg px-2 text-sm text-stone-600">
+            <option value="">全スタイリスト</option>
+            {% for stylist in stylists %}
+            <option value="{{ stylist.id }}" {% if request.args.get('stylist')==stylist.id|string %}selected{% endif %}>
+                {{ stylist.stylist_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <a href="/reservations" class="px-4 py-2 text-sm rounded-lg bg-stone-100">
+            すべて
+        </a>
+
+        {% if not is_today %}
+        <a href="/reservations?date={{ today_str }}"
+            class="px-4 py-2 text-sm font-medium rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 transition-colors">
+            今日に戻る
+        </a>
+        {% endif %}
+
+        <div class="relative">
+            <input id="calendar" type="text" data-current-date="{{ current_date | to_date_str }}" class=" opacity-0 w-0 h-10
+                absolute">
+
+            <button id="calendarBtn" type="button"
+                class="w-10 h-10 flex items-center justify-center border border-[#E8E6E1] rounded-lg hover:bg-[#F9F8F6]">
+                <span class="material-symbols-outlined">calendar_today</span>
+            </button>
+        </div>
+    </form>
+
+</div>
+
+
+
+
+
+
+<!-- Reservation Table Card -->
+<div class="bg-white border border-[#E8E6E1] rounded-xl shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-[#F9F8F6] border-b border-[#E8E6E1]">
+                    <th class="px-6 py-4 font-button text-button text-stone-600">時間</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">お客様名</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">スタイリスト</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">メニュー</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">合計金額</th>
+                    <th class="px-6 py-4 font-button text-button text-stone-600">ステータス</th>
+                    <!-- ３点リーダー用 -->
+                    <th class="px-6 py-4 font-button text-button text-stone-600"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-[#E8E6E1]">
+                {% for reservation in reservations %}
+                <tr class="cursor-pointer hover:bg-[#F9F8F6]"
+                    data-href="{{ url_for('reservations.reservations_detail', reservation_id=reservation.reservation_id) }}">
+                    <!-- 1列のどこをクリックしても選べるようにしたい jsにクリックしたらのイベントを任せる -->
+                    <!-- Column 1 予約日時 -->
+                    <td class=" px-6 py-5">
+                        <span class="text-stone-800 font-bold">
+                            {{ reservation.start_time.strftime('%H:%M') }}-{{ reservation.end_time.strftime('%H:%M') }}
+                        </span>
+                    </td>
+                    <!-- Column 2 お客様名 -->
+                    <td class="px-6 py-5">
+                        <div class="flex items-center gap-3">
+                            <!-- <img alt="Customer" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="Portrait of a fashionable young Japanese woman with stylish hair, neutral background, elegant lighting, soft focus"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLNOiRskLYs3HxELOB0zghAc6xJQqdcEVAtVvEGC-ByHfy2y4qXNeWN96h1djzVxe0t20wWYNkbQhfRDf6r3OZ3dedO83mXBq-AxoEosZlfxifiSser4NoKMoz0m8z2HUOyyWadwJGem1nl0NBLzvjCunEnQdvDcaQL_YnebaavR3w3o_uWEs2u-cavyRy5b9s0s4k_mWACyKpwX7VrNJX95rDWoz14Nq4DBzy1YE35yefNZa7VVR-WkOM1Nm-SJ79bUAaTNr0ef4" /> -->
+                            <div>
+                                <p class="text-stone-900 font-semibold">{{ reservation.customer.full_name }}</p>
+                                <p class="text-[10px] text-stone-400">{{ reservation.customer.customer_id }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <!-- Column 3 スタイリスト -->
+                    <td class="px-6 py-5 text-stone-600">
+
+                        <img alt="Stylists" class="w-8 h-8 rounded-full object-cover"
+                            src="{{ reservation.stylist.image_path }}">
+                        {{reservation.stylist.stylist_name }}
+
+                    </td>
+                    <!-- Column 4 メニュー -->
+                    <td class="px-6 py-5">
+                        <span class="bg-[#F9F8F6] text-stone-600 px-3 py-1 rounded-md text-xs border border-[#E8E6E1]">
+                            {% for menu in reservation.menus %}
+                            {{ menu.menu_name }}
+                            {% endfor %}
+                        </span>
+                    </td>
+                    <!-- Column 5 合計金額 -->
+                    <td class="px-6 py-5 font-bold text-stone-800">
+                        <p>{{ reservation.total_ex | yen }}</p>
+                        <p class="text-slate-600 text-xs">{{ reservation.total_in | yen }}(税込)</p>
+                    </td>
+                    <!-- Column 6 ステータス -->
+                    <td class="px-6 py-5">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#d3e8d3] text-[#4e6150]">
+                            ステータス
+                        </span>
+                    </td>
+                    <td class="px-6 py-5 text-right align-middle">
+                        <button class="text-stone-400 hover:text-stone-800 transition-colors">
+                            <span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Pagination / Table Footer -->
+    <div class="px-6 py-4 bg-[#F9F8F6] border-t border-[#E8E6E1] flex items-center justify-between">
+        <p class="text-xs text-stone-500">全 24 件中 1-4 件を表示</p>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-400 cursor-not-allowed">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_before">navigate_before</span>
+            </button>
+            <button class="px-3 py-1.5 border border-[#E8E6E1] rounded bg-white text-stone-600 hover:bg-stone-50">
+                <span class="material-symbols-outlined text-sm" data-icon="navigate_next">navigate_next</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+<!-- 1列のどこをクリックしても詳細画面に飛べるクリック時のJS -->
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/reservations.js') }}"></script>
+{% endblock %}

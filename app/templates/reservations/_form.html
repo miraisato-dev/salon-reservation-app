@@ -1,0 +1,163 @@
+<!-- app/templates/reservations/_form.html：reservations/create.html + reservations/edit.htmlのマクロ -->
+<div class="flex flex-col lg:flex-row gap-8">
+    <!-- Left Section: Form -->
+    <div class="flex-1 space-y-6">
+        <section class="bg-white border border-[#E8E6E1] rounded-xl p-8 shadow-sm">
+            <h3 class="font-noto-serif text-headline-md text-primary mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                基本情報
+            </h3>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="text-label-sm font-semibold text-gray-500">お客様検索</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                            data-icon="search">search</span>
+                        <input
+                            class="w-full pl-12 pr-4 py-3 rounded-lg border-[#E8E6E1] focus:border-primary focus:ring-1 focus:ring-primary/20 bg-background/50"
+                            placeholder="名前または電話番号を入力" type="text" />
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-label-sm font-semibold text-gray-500">予約日</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                                data-icon="calendar_today">calendar_today</span>
+                            <input
+                                class="w-full pl-12 pr-4 py-3 rounded-lg border-[#E8E6E1] focus:border-primary focus:ring-1 focus:ring-primary/20 bg-background/50"
+                                type="date" />
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-label-sm font-semibold text-gray-500">開始時間</label>
+                        <div class="relative">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                                data-icon="schedule">schedule</span>
+                            <select
+                                class="w-full pl-12 pr-4 py-3 rounded-lg border-[#E8E6E1] focus:border-primary focus:ring-1 focus:ring-primary/20 bg-background/50 appearance-none">
+                                <option>10:00</option>
+                                <option>11:00</option>
+                                <option>12:00</option>
+                                <option>13:00</option>
+                                <option>14:00</option>
+                                <option>15:00</option>
+                                <option>16:00</option>
+                                <option>17:00</option>
+                                <option>18:00</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-label-sm font-semibold text-gray-500">スタイリスト選択</label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <button
+                            class="flex items-center gap-3 p-3 rounded-lg border-2 border-primary bg-primary/5 text-primary">
+                            <img alt="Stylist 1" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="close-up portrait of a professional male hair stylist with a modern haircut in a salon environment"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpEfbi0WbslnRZEbKMglvFrWo4Px0PWA_S2Xzrdz34ugs5rz9P7WVkeFgVEhwWn-02hfUu-Na0DKAVWMNohZ3WUmBKX3Xk8KF5du75EUG3IifiRzy8ze50qDcwW6aDqWIT31fYi901proDTh_z7exVX0Fg0iQCuq3MUEYj91bTTcezw2ho-_YqHRURKiQrODecUhuu1z4AfGpixWoSYRgbn0th_F4yc7CvBPEJvqGd0EfM4Amj4OX6sg8WgiugfEDXua7qHlLjdzc" />
+                            <span class="text-sm font-medium">田中 健一</span>
+                        </button>
+                        <button
+                            class="flex items-center gap-3 p-3 rounded-lg border border-[#E8E6E1] hover:bg-surface-container transition-colors text-slate-600">
+                            <img alt="Stylist 2" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="professional portrait of a female hair stylist with elegant hairstyle in a soft-lit salon"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8NJ_iJB6OYsw7cSV2n2EWC9dOW9LW6fOGsAycjrgB4xg07AojhjSnXbxqkqK5qdrD55kp4RheOWUCbWNa0jFHqxy8AgM_1AqfGrhHW-27j6_Zyhyiy773OehhxUpzsRjej2H4Vtj2A1I2um91_h4bF10boLnLNkbAOzwq1d_nrsKSJuFegqXN_CIlrL2xnAv25DFsLlNuciw6jtpgYuckQynwTEk9spTxsAU3z55ye-CBv7tPI7fcwa8pmi1MGrNvo6npfSOBXSg" />
+                            <span class="text-sm font-medium">佐藤 美咲</span>
+                        </button>
+                        <button
+                            class="flex items-center gap-3 p-3 rounded-lg border border-[#E8E6E1] hover:bg-surface-container transition-colors text-slate-600">
+                            <img alt="Stylist 3" class="w-8 h-8 rounded-full object-cover"
+                                data-alt="portrait of a young stylish male stylist with trendy eyewear in a professional studio setting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs1eoWa8oJMqcd9y2jTC1bevGc-x24C5IOamPS7MoQApOmgDovMKcqTybfRw_giMbrXyspG6MXF8oHnt-1r_L_n3msCrtlqbRiyAA5STJxsUMj2VHM6Cd3S24nc8od2rMGwGCqGEMviwAHdW8iwtidPSABa0aECtFJeG3IvcIPNUgrN7Lv4EzwBLVk0krHBjhCwNAl8wiHqMp4vx1WPTQkTXzNa2GD92iu7Vfa9B8g8Q2X3gFkNZ7NZ8gK_TyeWT6csysxjSrpOm4" />
+                            <span class="text-sm font-medium">伊藤 雄太</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-label-sm font-semibold text-gray-500">メモ</label>
+                    <textarea
+                        class="w-full p-4 rounded-lg border-[#E8E6E1] focus:border-primary focus:ring-1 focus:ring-primary/20 bg-background/50 resize-none"
+                        placeholder="お客様のご要望や注意事項をご記入ください" rows="4"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Right Section: Menu Selection -->
+    <div class="w-full lg:w-96 space-y-6">
+        <section class="bg-white border border-[#E8E6E1] rounded-xl p-8 shadow-sm flex flex-col h-full">
+            <h3 class="font-noto-serif text-headline-md text-primary mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined" data-icon="content_cut">content_cut</span>
+                メニュー選択
+            </h3>
+            <div class="space-y-4 flex-1">
+                <label
+                    class="flex items-center p-4 rounded-lg border border-[#E8E6E1] cursor-pointer hover:bg-surface-container transition-colors group">
+                    <input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300"
+                        type="checkbox" />
+                    <div class="ml-4 flex-1">
+                        <p class="text-body-md font-semibold text-on-surface">カット</p>
+                        <p class="text-label-sm text-slate-400">60min / ¥6,600</p>
+                    </div>
+                </label>
+                <label
+                    class="flex items-center p-4 rounded-lg border border-[#E8E6E1] cursor-pointer hover:bg-surface-container transition-colors group">
+                    <input class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300" type="checkbox" />
+                    <div class="ml-4 flex-1">
+                        <p class="text-body-md font-semibold text-on-surface">カラー</p>
+                        <p class="text-label-sm text-slate-400">90min / ¥8,800</p>
+                    </div>
+                </label>
+                <label
+                    class="flex items-center p-4 rounded-lg border border-[#E8E6E1] cursor-pointer hover:bg-surface-container transition-colors group">
+                    <input class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300" type="checkbox" />
+                    <div class="ml-4 flex-1">
+                        <p class="text-body-md font-semibold text-on-surface">パーマ</p>
+                        <p class="text-label-sm text-slate-400">120min / ¥11,000</p>
+                    </div>
+                </label>
+                <label
+                    class="flex items-center p-4 rounded-lg border border-[#E8E6E1] cursor-pointer hover:bg-surface-container transition-colors group">
+                    <input class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300" type="checkbox" />
+                    <div class="ml-4 flex-1">
+                        <p class="text-body-md font-semibold text-on-surface">トリートメント</p>
+                        <p class="text-label-sm text-slate-400">30min / ¥4,400</p>
+                    </div>
+                </label>
+                <label
+                    class="flex items-center p-4 rounded-lg border border-[#E8E6E1] cursor-pointer hover:bg-surface-container transition-colors group">
+                    <input class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300" type="checkbox" />
+                    <div class="ml-4 flex-1">
+                        <p class="text-body-md font-semibold text-on-surface">ヘッドスパ</p>
+                        <p class="text-label-sm text-slate-400">45min / ¥5,500</p>
+                    </div>
+                </label>
+            </div>
+            <!-- Summary Area -->
+            <div class="mt-8 pt-6 border-t border-[#E8E6E1] space-y-4">
+                <div class="flex justify-between items-center text-slate-500">
+                    <span class="text-label-sm">合計所要時間</span>
+                    <span class="font-semibold">60 分</span>
+                </div>
+                <div class="flex justify-between items-end">
+                    <span class="text-label-sm text-slate-500 pb-1">合計金額（税込）</span>
+                    <span class="text-2xl font-bold text-primary font-noto-serif">¥6,600</span>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- Bottom Actions -->
+<div class="mt-10 flex justify-center items-center gap-4">
+    <button
+        class="px-10 py-3 rounded-full border border-[#E8E6E1] text-slate-500 font-button hover:bg-surface-container transition-colors">
+        キャンセル
+    </button>
+    <button
+        class="px-12 py-3 rounded-full bg-primary text-white font-button shadow-md shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+        確認する
+    </button>
+</div>

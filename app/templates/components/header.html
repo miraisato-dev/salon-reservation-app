@@ -1,0 +1,59 @@
+<!-- templates/components/header.html -->
+
+<!-- z-50で何よりも前面に -->
+<header class="fixed top-0 left-64 right-0 h-16 bg-white border-b flex items-center justify-between px-8 z-50">
+    <div class="flex items-center gap-6">
+        <div class="relative w-64">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-lg"
+                data-icon="search">search</span>
+            <input
+                class="w-full pl-10 pr-4 py-2 bg-stone-50 border-none rounded-lg text-sm focus:ring-1 focus:ring-[#7A8E7C]"
+                placeholder="検索や顧客を検索" type="text" />
+        </div>
+    </div>
+    <div class="flex items-center gap-4">
+        <button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors relative">
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            <span class="absolute top-2 right-2 w-2 h-2 bg-[#7A8E7C] rounded-full border border-white"></span>
+        </button>
+        <!-- <button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors">
+            <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+        </button> -->
+        <!-- 右上のアカウントアイコンをホバーするとドロップダウン -->
+        <div class="relative group">
+            <button class="p-2 text-stone-500 hover:bg-stone-50 rounded-full transition-colors relative">
+                <span class="material-symbols-outlined text-stone-500">account_circle</span>
+                <!-- <span class="text-sm text-stone-700">Admin Staff</span> -->
+            </button>
+
+            <!-- dropdown -->
+            <div class="absolute right-0 mt-2 w-44 bg-white border border-[#E8E6E1] overflow-hidden
+                opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                transition-all duration-150">
+                <a class="block px-4 py-2 text-sm text-stone-600 hover:bg-[#F9F8F6] hover:text-[#7A8E7C]" href="#">
+                    プロフィール
+                </a>
+                <a class="block px-4 py-2 text-sm text-stone-600 hover:bg-[#F9F8F6] hover:text-[#7A8E7C]" href="#">
+                    設定
+                </a>
+                <div class="h-px bg-[#E8E6E1]"></div>
+                <a class="block px-4 py-2 text-sm text-stone-500 hover:bg-[#F9F8F6] hover:text-red-500"
+                    href="{{ url_for('auth.logout') }}">
+                    ログアウト
+                </a>
+            </div>
+        </div>
+
+        <div class="h-8 w-px bg-stone-200 mx-2"></div>
+        <div class="flex items-center space-x-2">
+            <span class="text-right hidden lg:block">
+                <p class="font-button text-button leading-none text-on-surface">Alex Rivera</p>
+                <p class="text-[10px] uppercase tracking-wider text-on-surface-variant">Salon Manager</p>
+            </span>
+            <img alt="Manager Profile" class="h-10 w-10 rounded-full object-cover border border-stone-200"
+                data-alt="professional male salon manager headshot with warm lighting and a soft neutral background"
+                src="" />
+        </div>
+    </div>
+    </div>
+</header>

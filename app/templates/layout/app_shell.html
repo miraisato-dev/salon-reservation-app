@@ -1,0 +1,24 @@
+<!-- 全画面共通の左側ナビゲーションバー + 上部ヘッダーの枠のみ -->
+<!-- componentsで部品化したsidebarとheaderを埋め込む -->
+
+<!-- templates/layout/app_shell.html -->
+{% extends "layout/base.html" %}
+
+{% block body %}
+
+{% include "components/sidebar.html" %}
+{% include "components/header.html" %}
+
+<main class="pl-64 pt-16 min-h-screen">
+    <div class="p-8 max-w-7xl mx-auto">
+        <!-- これがメインのコンテンツの幅を決めるdiv without (header_content+sidebar) -->
+        {% include "components/content_header.html" %}
+
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<!-- 各ページでJS読み込む -->
+{% block scripts %}{% endblock %}
+
+{% endblock %}
