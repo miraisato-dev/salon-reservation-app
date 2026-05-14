@@ -1,1 +1,30 @@
 <!-- templates/reservations/create.html -->
+
+{% extends "layout/app_shell.html" %}
+
+{% from "components/content_header.html" import render as header %}
+
+{% block title %}新規予約作成{% endblock %}
+
+{% block content %}
+
+{# Flaskから送られてきた変数を使ってマクロを呼び出す #}
+{% call header(
+page_title=page_title,
+sub_title=sub_title,
+breadcrumb_items=breadcrumb_items
+) %}
+{# 右側に「編集ボタン」などを置きたい場合はここに書く #}
+
+{% endcall %}
+
+<form method="POST" class="bg-white p-8 rounded-xl border border-stone-200 shadow-sm space-y-6">
+
+    <!-- <div class="ml-64 pt-16 p-8 min-h-screen">
+    <div class="max-w-6xl mx-auto"> -->
+
+    {% include "reservations/_form.html" %}
+    </div>
+    </div>
+</form>
+{% endblock %}

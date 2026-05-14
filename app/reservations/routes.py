@@ -107,32 +107,71 @@ def reservations_index():
         ]
     )
 
+
 # 予約作成
+# @reservations_bp.route('/reservations/create', methods=['GET', 'POST'])
+# def reservations_create():
+
+    # if request.method == 'POST':
+    #     # 複数選択
+    #     menu_ids = request.form.getlist('menu_ids')
+
+    #     customer_id = request.form.get('customer_id')
+    #     stylist_id = request.form.get('stylist_id')
+    #     # Todo: string → date/time に変換する
+    #     date = request.form.get('reservation_date')
+    #     date = datetime.strptime(date, "%Y/%m/%d").date() # YYYY-MM-DD
+    #     start_time = request.form.get('start_time')
+    #     start_time = datetime.strptime(start_time, "%H:%M").time()
+    #     end_time = calculate_end_time(start_time, menu_ids)
+
+    #     flash('POST受け取った')
+    #     return redirect(url_for('reservations.reservations_index'))
+
 @reservations_bp.route('/reservations/create', methods=['GET', 'POST'])
 def reservations_create():
-
     if request.method == 'POST':
-        # 複数選択
-        menu_ids = request.form.getlist('menu_ids')
-
+        # フォームデータの取得
         customer_id = request.form.get('customer_id')
         stylist_id = request.form.get('stylist_id')
-        # Todo: string → date/time に変換する
-        date = request.form.get('reservation_date')
-        date = datetime.strptime(date, "%Y/%m/%d").date() # YYYY-MM-DD
-        start_time = request.form.get('start_time')
-        start_time = datetime.strptime(start_time, "%H:%M").time()
+        res_date_str = request.form.get('reservation_date') # YYYY-MM-DD想定
+        start_time_str = request.form.get('start_time')     # HH:mm想定
+        menu_ids = request.form.getlist('menu_ids')
+
+        # 型変換と計算
+        res_date = datetime.strptime(res_date_str, "%Y-%m-%d").date()
+        start_time = datetime.strptime(start_time_str, "%H:%M").time()
+        
+        # 終了時間の計算 (Service層を利用)
         end_time = calculate_end_time(start_time, menu_ids)
 
-        flash('POST受け取った')
-        return redirect(url_for('reservations.reservations_index'))
+        # 1. 予約オブジェクト作成
+        new_res = Reservations(
+            customer_id=customer_id,
+            stylist_id=stylist_id,
+            reservation_date=res_date,
+            start_time=datetime.combine(res_date, start_time),
+            end_time=datetime.combine(res_date, end_time),
+        )
+
+        # 2. 中間テーブル(Menu)との紐付け
+        selected_menus = Menus.query.filter(Menus.menu_id.in_(menu_ids)).all()
+        new_res.menus.extend(selected_menus)
+
+        # 3. 保存
+        db.session.add(new_res)
+        db.session.commit()
+
+        flash(f'予約を登録しました（終了予定: {end_time.strftime("%H:%M")}）')
+        # 詳細画面へリダイレクト
+        return redirect(url_for('reservations.reservations_detail', reservation_id=new_res.reservation_id))
 
     customers = Customers.query.all()
     stylists = Stylists.query.all()
     menus = Menus.query.all()
 
     return render_template(
-        'reservations/form.html',
+        'reservations/_form.html',
         customers=customers,
         stylists=stylists,
         menus=menus, 
